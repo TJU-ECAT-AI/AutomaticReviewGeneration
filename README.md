@@ -72,9 +72,9 @@ pyinstaller -Fw GUI.py -i Icon.png
 
 # Publication
 
-专利申请已被专利局接收；文章在投。
+专利申请已被专利局接收；文章在投。[ArXiv预印本](https://arxiv.org/abs/2407.20906)
 
-The patent application has been accepted by the Patent Office; the article is being submitted.
+The patent application has been accepted by the Patent Office; the article is being submitted. [ArXiv Preprint](https://arxiv.org/abs/2407.20906)
 
 
 # License
