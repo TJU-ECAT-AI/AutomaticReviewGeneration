@@ -8,9 +8,9 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 
 # 1. Prepare API Keys (This tutorial is from GPT-4)
 >
->  First, contact the author to obtain a GUI running license.
+>  The GUI running license is located in the [License file](https://github.com/Invalid-Null/AutomaticReviewGeneration/raw/main/License) in the root folder of this repository. Place it in the same folder as the exe file. Please do not modify the filename of the License file.
 > 
-> Preparing API keys is a prerequisite for using various API services. This guide covers how to obtain API keys for SerpAPI, LLM, and Elsevier.
+> Preparing API keys is a prerequisite for using various API services. This guide covers how to obtain API keys for SerpAPI, LLM,和Elsevier.
 > 
 > #### SerpAPI Key
 > 
