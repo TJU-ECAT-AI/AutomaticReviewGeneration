@@ -4,7 +4,7 @@
 
 # 一、准备API密钥（该步骤下述教程来自GPT4）
 >
->  首先，联系作者获取GUI运行许可证。
+>  GUI运行许可证在本仓库根文件夹的License文件，和exe文件放在同个文件夹下即可。请勿修改License文件的文件名。
 > 
 > 准备API密钥是使用各种API服务的前提。本指南涵盖了如何获取SerpAPI、LLM以及Elsevier的API密钥。
 > 
