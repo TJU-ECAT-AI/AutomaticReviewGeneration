@@ -10,9 +10,9 @@ import time
 import xml.etree.ElementTree as ET
 import func_timeout
 import tiktoken
-URL=
-KEY=
-MODEL=
+URL=''
+KEY=''
+MODEL=''
 max_tokens=32768
 @func_timeout.func_set_timeout(400)
 def GetResponseFromClaude(Prompt,api_key):

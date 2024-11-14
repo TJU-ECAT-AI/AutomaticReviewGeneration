@@ -9,9 +9,9 @@ import func_timeout
 from threading import Thread, Semaphore
 from queue import Queue, Empty
 import xml.etree.ElementTree as ET
-URL=
-KEY=
-MODEL=
+URL=''
+KEY=''
+MODEL=''
 max_tokens=32768
 @func_timeout.func_set_timeout(400)
 def GetResponseFromClaude(Prompt,api_key):

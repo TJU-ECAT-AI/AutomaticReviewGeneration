@@ -11,9 +11,9 @@ import xml.etree.ElementTree as ET
 from threading import Thread, Semaphore
 from multiprocessing import Pool
 from queue import Queue, Empty
-URL=
-KEY=
-MODEL=
+URL=''
+KEY=''
+MODEL=''
 max_tokens=524288
 @func_timeout.func_set_timeout(400)
 def GetResponseFromClaude(Prompt,api_key):
