@@ -23,7 +23,7 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 > 4. **Copy API Key**
 >    - Copy the API key for use in your application.
 > 
-> #### LLM Key (Supports Claude2 API and OpenAI format API)
+> #### LLM Key (Supports Claude API and OpenAI format API)
 > 
 > 1. **Register or Login**
 >    - Identify the LLM (Large Language Model) API provider (such as OpenAI), create an account or login.
@@ -51,59 +51,7 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 > - **Regeneration**: If a key is compromised, regenerate it from the service's dashboard as soon as possible.
 > - **Usage Limits**: Be aware of any usage limits or quotas associated with your API keys to avoid service interruptions.
 
-# 2. Set Environment Variables (This tutorial is from GPT-4)
-> 
-> The environment variable to set is: ElsClientKey, which is the Elsevier key obtained in the previous step.
-> 
-> In Windows 10, you can use command line tools, such as `cmd` or `PowerShell`, to set environment variables. Here is a guide to the two main methods.
-> 
-> #### Via Command Prompt (CMD)
-> 
-> 1. **Set Temporary Environment Variable**:
->    - Open Command Prompt (CMD).
->    - Use the `set` command to set an environment variable. This sets a temporary variable that disappears after closing the CMD window. For example, to set an environment variable named `MYVAR` with the value `value`:
->      ```
->      set MYVAR=value
->      ```
-> 2. **Set Permanent Environment Variable**:
->    - For a permanent environment variable, you need to use the `setx` command. This permanently adds or modifies an environment variable, but only affects new command line windows. For example:
->      ```
->      setx MYVAR "value"
->      ```
->    - To set an environment variable for all users, use the `/M` switch:
->      ```
->      setx /M MYVAR "value"
->      ```
->    
->    Note that when using `setx`, if the environment variable value contains spaces, it needs to be enclosed in quotes.
-> 
-> #### Via PowerShell
-> 
-> 1. **Set Temporary Environment Variable**:
->    - Open PowerShell.
->    - Use `$env:` to set a temporary environment variable, which will be effective in the current PowerShell session. For example:
->      ```
->      $env:MYVAR = "value"
->      ```
-> 2. **Set Permanent Environment Variable**:
->    - Use the `[System.Environment]::SetEnvironmentVariable` method. This allows you to set a permanent environment variable for the current user or all users. For example, to set for the current user:
->      ```
->      [System.Environment]::SetEnvironmentVariable("MYVAR", "value", [System.EnvironmentVariableTarget]::User)
->      ```
->    - To set for all users, make sure to run PowerShell as an administrator, then execute:
->      ```
->      [System.Environment]::SetEnvironmentVariable("MYVAR", "value", [System.EnvironmentVariableTarget]::Machine)
->      ```
->    
->    This requires administrative privileges.
-> 
-> #### Notes
-> 
-> - When using the `setx` command, the maximum character length limit is 1024 characters.
-> - After setting an environment variable, you may need to restart your command line tool or computer for the changes to take effect.
-> - When setting environment variables with PowerShell, choose `User` or `Machine` as the target, representing the current user and all users, respectively.
-
-# 3. Download and Run the Pre-packaged exe File (This tutorial is from GPT-4)
+# 2. Download and Run the Pre-packaged exe File (This tutorial is from GPT-4)
 > 
 > The following steps will guide you on how to download and run an exe file from a specified GitHub page.
 > 
@@ -118,8 +66,9 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 > 4. **Run the exe File**
 >    - After downloading, locate the downloaded `.exe` file and double-click to run.
 >    - If the system prompts "Unknown publisher," choose "Run" to continue.
+> 5. **Warning: not all computer systems will be compatible with this programme, if compatibility problems occur, you need to download the Python source code and follow the instructions to install all the dependent libraries correctly and run the programme already!**
 
-# 4. Interface Button Introduction
+# 3. Interface Button Introduction
 >  **The interface after opening the program is as follows**
 >  [![Startup Interface](0.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/0.png)
 > 
@@ -138,6 +87,7 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 >
 >  - Search Options: Open the literature search options dialog
 >  - LLM Options: Open the large language model options dialog
+>  - Review Options：Open the Review options dialog
 >
 > <!-- -->   
 >
@@ -147,15 +97,17 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 > **The interface after folding the configuration options is as follows**
 >  [![Folded Options Interface](1.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/1.png)
 
-# 5. Literature Search Options Configuration
+# 4. Literature Search Options Configuration
 >  1. Literature Search Options Configuration Dialog
 >  
 >  **The interface of the literature search options configuration dialog is as follows**
->  [![Literature Search Options Configuration Dialog](3.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/3.png)
+>  [![Literature Search Options Configuration Dialog](2.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/2.png)
 > 
+>  - Custom Journals：Open the custom literature list, and the software will only retrieve user-defined literature. If you want to reset the literature list, please delete all custom literature.
 >  - Add to Serp API List: Open the Serp API key (list) configuration dialog
 >  - Add to Research Keys: Open the retrieval keywords (list) configuration dialog, i.e., using the keywords (list) for literature search
 >  - Add to Screen Keys: Open the filtering keywords (list) configuration dialog, i.e., using the keywords (list) for filtering titles and abstracts
+>  - Set Elsevier API Keys：Set the Elsevier API key for journal category determination
 >
 > <!-- -->   
 >
@@ -171,7 +123,7 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 >  2. Serp API Key (List) Configuration Dialog
 >  
 >  **The interface of the Serp API key (list) configuration dialog is as follows**
->  [![Serp API Key (List) Configuration Dialog](4.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/4.png)
+>  [![Serp API Key (List) Configuration Dialog](3.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/3.png)
 >
 >  Enter the Serp API key obtained in the previous steps, one at a time, without quotes, then click `OK`.
 >
@@ -184,7 +136,7 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 > 3. Click save to close the literature search options configuration dialog.
 >  
 >  **The program interface after clicking save is as follows**
->  [![Literature Search Options Configuration Output](2.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/2.png)
+>  [![Literature Search Options Configuration Output](4.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/4.png)
 >  
 >  Apart from the Serp API key (list), the content of other options will be printed on the interface.
 >  
@@ -192,11 +144,11 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 >
 >  Directly closing the literature search options configuration dialog will not save the literature search configuration options.
  
-# 6. Large Language Model Options Configuration
+# 5. Large Language Model Options Configuration
 >  1. Large Language Model Options Configuration Dialog
 >  
 >  **The interface of the large language model options configuration dialog is as follows**
->  [![Large Language Model Options Configuration Dialog](6.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/6.png)
+>  [![Large Language Model Options Configuration Dialog](5.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/5.png)
 > 
 >  - Add to Claude Api Key List: Open the Claude API key (list) configuration dialog
 >  - Add to OpenAI-compatible API Url List: Open the OpenAI format API URL (list) configuration dialog
@@ -206,7 +158,7 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 >  2. Close the large language model options configuration dialog.
 >
 >  **The program interface after clicking save is as follows**
->  [![Large Language Model Options Configuration Result](5.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/5.png)
+>  [![Large Language Model Options Configuration Result](6.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/6.png)
 >
 >  The operation of the above configuration dialog is completely consistent with the Serp API key (list) configuration dialog.
 >
@@ -221,14 +173,28 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 >  It is recommended to click `Check LLM Response` after configuration to check if the configured large language models are accessible.
 >
 >  **An example of a successful test is as follows**
->  [![Large Language Model Connection Test Passed](5.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/5.png)
+>  [![Large Language Model Connection Test Passed](7.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/7.png)
 >
 >  **An example of a failed test is as follows**
->  [![Large Language Model Connection Test Failed](7.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/7.png)
+>  [![Large Language Model Connection Test Failed](8.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/8.png)
 > 
 >  Check the reason for the failure based on the return result and reconfigure.
 >
 >  Large language models that fail the test will not be applied in the review generation process.
+
+# 6.Overview Assessment Options Configuration
+>  1. Overview assessment options configuration dialogue box
+>  
+>  **Open the Overview Assessment Options Configuration dialogue box as follows**
+>  [![Overview Assessment Options Configuration Dialogue](9.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/9.png)
+> 
+>  - Skip Compare Articles：Skip the paragraph comparison part of the article.
+>  - Direct Topic Generation：Generate synthesis topics directly
+
+>  2. Close the Review Evaluation Options Configuration dialogue box.
+>
+>  **Click Save and the programme interface will look like this.**
+>  [![Overview Evaluation Options Configuration Results Output](10.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/10.png)
 
 # 7. Run the Review Generation Process
 >  Refer to **4. Interface Button Introduction**, select the modules to run.
@@ -242,10 +208,17 @@ Translated from Chinese tutorials by GPT-4, refer to the [Chinese tutorials](GUI
 >  Supports breakpoint continuation, if the run is interrupted, rerun to continue.
 >
 >  - **The prompt for an incomplete literature search process is as follows**
->  - [![Incomplete Literature Search Process](8.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/8.png)
+>  - [![Incomplete Literature Search Process](11.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/11.png)
 >
 >  - **The prompt for an incomplete topic generation process is as follows**
->  - [![Incomplete Topic Generation Process](9.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/9.png)
+>  - [![Incomplete Topic Generation Process](12.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/12.png)
 >
 >  - **The prompt for an incomplete knowledge extraction process is as follows**
->  - [![Incomplete Knowledge Extraction Process](10.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/10.png)
+>  - [![Incomplete Knowledge Extraction Process](13.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/13.png)
+
+# 8.Stop and Restart
+>  When the programme is running, the Overview Generator button will automatically change to a Stop button, when pressed, the programme will end all processes and restart after a certain period of time, please be patient.
+>  You can use the mouse wheel to view the history in the output window.
+>  - **The stop and restart interface are as follows**
+>  - [![Stop Process](14.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/14.png)
+>  - [![Restart Process](15.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/15.png)
