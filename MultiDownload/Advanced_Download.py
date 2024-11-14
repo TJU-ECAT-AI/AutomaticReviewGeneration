@@ -1,3 +1,5 @@
+import copy
+import csv
 import difflib
 import time
 import shutil
@@ -13,9 +15,10 @@ from selenium.webdriver.edge.options import Options
 from . import Global_Journal
 from selenium.common.exceptions import NoSuchDriverException
 import tqdm
-import os
 import sys
-import re
+import os
+import numpy
+ElsevierClient = ElsClient('elsevier key')
 def get_journal_and_url(doi):
     base_url = "https://api.crossref.org/works/"
     doi = doi.replace('/full', '')
@@ -35,18 +38,12 @@ def get_journal_and_url(doi):
 def is_similar(A, B, threshold=0.95):
     s = difflib.SequenceMatcher(None, A, B)
     return s.ratio() >= threshold
+Other_publications = []
 def get_publications(journal_name, only_high_if=False, only_second=False):
     if only_high_if:
         main_group = False
-        Other_publications = []
     else:
         main_group = True
-        Other_publications = []
-    custom_journals = load_custom_journals()
-    print('custom_journals added: ')
-    for i in custom_journals:
-        print(i)
-    User_defined = Global_Journal.User_defined
     ACS_publications = Global_Journal.ACS_publications
     Wiley_publications = Global_Journal.Wiley_publications
     ELSEVIER_publications = Global_Journal.ELSEVIER_publications_1 + Global_Journal.ELSEVIER_publications_2 + Global_Journal.ELSEVIER_publications_3
@@ -57,7 +54,7 @@ def get_publications(journal_name, only_high_if=False, only_second=False):
     MDPI_publications = []
     Frontiers_publications = []
     Taylor_publications = []
-    ACS_second = Global_Journal.ACS_second+Global_Journal.ACS_second_2
+    ACS_second = Global_Journal.ACS_second + Global_Journal.ACS_second_2
     Wiley_second = Global_Journal.Wiley_second_search_1 + Global_Journal.Wiley_second_search_2 + Global_Journal.Wiley_second_search_3
     ELSEVIER_second = Global_Journal.ELSEVIER_second_search_1 + Global_Journal.ELSEVIER_second_search_2 + Global_Journal.ELSEVIER_second_search_3 + Global_Journal.ELSEVIER_second_search_4 + Global_Journal.ELSEVIER_second_search_5
     springer_second = Global_Journal.springer_second + Global_Journal.springer_second_2
@@ -66,6 +63,7 @@ def get_publications(journal_name, only_high_if=False, only_second=False):
     Frontiers_second = Global_Journal.Frontiers_second
     Taylor_second = Global_Journal.Taylor_second
     Other_second = Global_Journal.Other_second
+    Other_publications = Global_Journal.Other_publications
     if only_second:
         Global_Journal.Print('Only download low IF papers')
         ACS_publications = []
@@ -89,26 +87,6 @@ def get_publications(journal_name, only_high_if=False, only_second=False):
         Other_publications = Other_publications + Other_second
     else:
         Global_Journal.Print('Only download high IF papers')
-    if len(custom_journals) >0:
-        warning_art = '''
-        +-------------------------------------------+
-        |           ! CAUTION WARNING !              |
-        |      ! PROCEED WITH CAUTION !              |
-        +-------------------------------------------+
-        '''
-        print(warning_art)
-        print(
-     '''other journal list will be cleaned!!!
-     you should check the journal carefully!!!''')
-        ACS_publications = []
-        Wiley_publications = []
-        ELSEVIER_publications = []
-        springer_publications = []
-        RSC_publications = []
-        MDPI_publications = []
-        Frontiers_publications = []
-        Taylor_publications = []
-        Other_publications = []
     Global_Journal.Print('journal_name is : ', journal_name)
     if is_similar(journal_name.lower().replace(' ', ''), springer_special.lower().replace(' ', '')):
         return 'springer_special'
@@ -126,10 +104,6 @@ def get_publications(journal_name, only_high_if=False, only_second=False):
             return 'Frontiers'
         else:
             pass
-    for journal in custom_journals:
-        if is_similar(journal_name.lower().replace(' ', ''), journal.lower().replace(' ', '')):
-            Global_Journal.Print(journal_name, journal)
-            return 'User_defined'
     for ACS in ACS_publications:
         if is_similar(journal_name.lower().replace(' ', ''), ACS.lower().replace(' ', '')):
             Global_Journal.Print(journal_name, ACS)
@@ -166,10 +140,6 @@ def get_publications(journal_name, only_high_if=False, only_second=False):
             return 'RSC'
         else:
             pass
-    for user_journal in User_defined:
-        if is_similar(journal_name.lower().replace(' ', ''), user_journal.lower().replace(' ', '')):
-            Global_Journal.Print(journal_name, user_journal)
-            return 'User_defined'
     for Taylor in Taylor_publications:
         if is_similar(journal_name.lower().replace(' ', ''), Taylor.lower().replace(' ', '')):
             Global_Journal.Print(journal_name, Taylor)
@@ -187,26 +157,6 @@ def get_publications(journal_name, only_high_if=False, only_second=False):
         return 'other'
     print('ERROR : ', journal_name, 'cannot find publications')
     return None
-def load_custom_journals():
-    RootDir = os.path.abspath('..')
-    """读取自定义期刊文件并更新 Global_Journal.User_defined"""
-    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    journal_file_path = f'{RootDir}{os.sep}Temp{os.sep}custom_journals.txt'
-    if os.path.exists(journal_file_path):
-        try:
-            with open(journal_file_path, 'r', encoding='utf-8') as f:
-                journals = [line.strip() for line in f.readlines()
-                            if line.strip() and not line.startswith('#')]
-            Global_Journal.User_defined.clear()
-            Global_Journal.User_defined.extend(journals)
-            Global_Journal.Print(f"Loaded {len(journals)} custom journals")
-            return Global_Journal.User_defined
-        except Exception as e:
-            print(f"Error loading custom journals: {str(e)}")
-            return []
-    else:
-        print("No custom journals file found")
-        return []
 def loading(driver):
     driver.implicitly_wait(2)
     while True:
@@ -222,18 +172,24 @@ def get_Xpath(publications):
         paper_type = ['//*[@id="pb-page-content"]/div/main/article/div[2]/div/div[2]/div/div/div[1]/div[1]/div/div',
                       '//*[@id="pb-page-content"]/div/main/article/div[2]/div/div[2]/div/div/div[1]/div[1]/div/div/span'
                       ]
-        title = ['//*[@id="pb-page-content"]/div/main/article/div[4]/div[1]/div[1]/div/div/h1',
-                 '//*[@id="pb-page-content"]/div/main/article/div[2]/div/div[2]/div/div/div[1]/h1',
-                 '//*[@id="pb-page-content"]/div/main/article/div[4]/div[1]/div[1]/div/div/h1/span'
+        title = ['//*[@id="pb-page-content"]/div/main/article/div[2]/div/div[2]/div/div/div[1]/h1'
                  ]
-        abstract = ['//*[@id="abstractBox"]/p',
-                    '//*[@id="pb-page-content"]/div/main/article/div[3]',
-                    '//*[@id="pb-page-content"]/div/main/article/div[4]/div[1]/div[2]',
+        abstract = ['//*[@id="pb-page-content"]/div/main/article/div[3]',
+                    '//*[@id="pb-page-content"]/div/main/article/div[2]',
+                    '//*[@id="pb-page-content"]/div/main/article/div[1]',
+                    '//*[@id="pb-page-content"]/div/main/article/div[4]',
+                    '//*[@id="pb-page-content"]/div/main/article/div[5]',
+                    '//*[@id="pb-page-content"]/div/main/article/div[6]'
                     ]
         full_text = ['//*[@id="pb-page-content"]/div/main/article/div[4]',
                      '//*[@id="pb-page-content"]/div/main/article/div[3]',
                      '//*[@id="pb-page-content"]/div/main/article/div[2]',
                      '//*[@id="pb-page-content"]/div/main/article/div[1]',
+                     '//*[@id="pb-page-content"]/div/main/article/div[5]',
+                     '//*[@id="pb-page-content"]/div/main/article/div[6]',
+                     '//*[@id="pb-page-content"]/div/main/article/div[7]',
+                     '//*[@id="pb-page-content"]/div/main/article/div[8]',
+                     '//*[@id="pb-page-content"]/div/main/article/div[9]',
                      '/html/body'
                      ]
         return paper_type, title, abstract, full_text
@@ -246,7 +202,9 @@ def get_Xpath(publications):
     elif publications == 'wiley':
         paper_type = ['//*[@id="article__content"]/div[2]/div/div[2]']
         title = ['//*[@id="article__content"]/div[2]/div/h1']
-        abstract = ['//*[@id="article__content"]/div[5]/article/div[1]']
+        abstract = ['//*[@id="article__content"]/div[5]',
+                    '//*[@id="article__content"]/div[5]/article/div[1]',
+                    '//*[@id="article__content"]/div[5]/div[1]']
         full_text = ['//*[@id="article__content"]/div[5]/article/section']
         return paper_type, title, abstract, full_text
     elif publications == 'ELSEVIER':
@@ -255,8 +213,8 @@ def get_Xpath(publications):
         title = ['//*[@id="screen-reader-main-title"]',
                  '//*[@id="sect216"]'
                  ]
-        abstract = ['//*[@id="abs0010"]',
-                    '//*[@id="abstracts"]'
+        abstract = ['//*[@id="abstracts"]',
+                    '//*[@id="abs0010"]'
                     ]
         full_text = ['//*[@id="body"]',
                      '//*[@id="wrapper"]'
@@ -272,7 +230,25 @@ def get_Xpath(publications):
                  '//*[@id="main-content"]/main/article/div[1]/header/h1',
                  '//*[@id="main"]/header/div/div/div[1]/h1']
         abstract = ['//*[@id="Abs1-content"]',
-                    '//*[@id="Abs1-section"]']
+                    '//*[@id="Abs1-section"]',
+                    '//*[@id="Abs2-content"]',
+                    '//*[@id="Abs2-section"]',
+                    '//*[@id="Abs3-content"]',
+                    '//*[@id="Abs3-section"]',
+                    '//*[@id="Abs4-content"]',
+                    '//*[@id="Abs4-section"]',
+                    '//*[@id="Abs5-content"]',
+                    '//*[@id="Abs5-section"]',
+                    '//*[@id="Abs6-content"]',
+                    '//*[@id="Abs6-section"]',
+                    '//*[@id="Abs7-content"]',
+                    '//*[@id="Abs7-section"]',
+                    '//*[@id="Abs8-content"]',
+                    '//*[@id="Abs8-section"]',
+                    '//*[@id="Abs9-content"]',
+                    '//*[@id="Abs9-section"]',
+                    '//*[@id="Abs-content"]',
+                    '//*[@id="Abs-section"]']
         full_text = ['//*[@id="content"]/main/article/div[2]/div[2]',
                      '//*[@id="main-content"]/main/article/div[2]/div[3]',
                      '//*[@id="main-content"]/main/article/div[2]/div[3]',
@@ -281,7 +257,14 @@ def get_Xpath(publications):
     elif publications == 'springer_special':
         paper_type = ['//*[@id="content"]/main/article/div[2]/header/ul[1]/li[1]']
         title = ['//*[@id="content"]/main/article/div[2]/header/h1']
-        abstract = ['//*[@id="Abs1-content"]']
+        abstract = ['//*[@id="Abs1-content"]',
+                    '//*[@id="Abs1-section"]',
+                    '//*[@id="Abs2-content"]',
+                    '//*[@id="Abs2-section"]',
+                    '//*[@id="Abs3-content"]',
+                    '//*[@id="Abs3-section"]',
+                    '//*[@id="Abs-content"]',
+                    '//*[@id="Abs-section"]']
         full_text = ['//*[@id="content"]/main/article/div[3]/div[1]']
         return paper_type, title, abstract, full_text
     elif publications == 'RSC':
@@ -295,7 +278,9 @@ def get_Xpath(publications):
         Global_Journal.Print('MDPI')
         paper_type = ['//*[@id="abstract"]/div[2]/article/div/div[1]']
         title = ['//*[@id="abstract"]/div[2]/article/div/h1']
-        abstract = ['//*[@id="abstract"]/div[2]/article/div/div[10]']
+        abstract = ['//*[@id="abstract"]/div[2]/article/div/div[10]',
+                    '//*[@id="html-abstract"]/div',
+                    '//*[@id="html-abstract"]']
         full_text = ['//*[@id="abstract"]/div[2]/article/div/div[12]/div[1]']
         return paper_type, title, abstract, full_text
     elif publications == 'Frontiers':
@@ -312,15 +297,6 @@ def get_Xpath(publications):
                  '//*[@id="fa57727f-b942-4eb8-9ed2-ecfe11ac03f5"]/div']
         abstract = ['//*[@id="mainTabPanel"]/article/div[2]/div[1]']
         full_text = ['//*[@id="mainTabPanel"]/article/div[2]']
-        return paper_type, title, abstract, full_text
-    elif publications == 'User_defined':
-        Global_Journal.Print('User_defined')
-        paper_type = ['/html']
-        title = ['/html']
-        abstract = ['/html']
-        full_text = ['/html']
-        print('Warning : User Defined Paper Type used, return the whole HTML body, you should compute the paper '
-              'download carefully to get better performance!!!')
         return paper_type, title, abstract, full_text
     elif publications == 'other':
         Global_Journal.Print('Other publications!!!')
@@ -414,7 +390,6 @@ def judge_relevance(key_words, text, relevance_coefficient=0):
         return False
 def download_paper(doi, key_words, only_high_IF=False, only_second=False):
     journal, url = get_journal_and_url(doi)
-    print(url,journal)
     paper_type, title, abstract, text = get_Xpath(get_publications(journal, only_high_IF, only_second))
     if paper_type is None:
         return 'the paper type of doi ： {} is None'.format(doi)
@@ -438,36 +413,50 @@ def download_paper(doi, key_words, only_high_IF=False, only_second=False):
                 txt_name = txt_name.replace(':', '').replace('https', '').replace('__pubs.acs.org_', '').replace('=',
                                                                                                                  '').replace(
                     '/', '_').replace('?', '')
-        txt_name = process_doi_string(txt_name)
         with open('./LiteratureSearchWorkDir/{}'.format(txt_name), 'wb') as f:
             f.write(bytes_data)
             f.close()
             return 'succeed download {}'.format(doi)
     else:
         return 'No related paper : {}'.format(doi)
-def process_doi_string(input_string):
-    pattern = r'(^|_)(10\..+)'
-    match = re.search(pattern, input_string)
-    if match:
-        return match.group(2)
-    else:
-        return "No valid DOI found"
-def download_in_csv(csv_name, keyword, only_high_IF=False, only_second=False,Demo=True,STDOUT=sys.stdout):
+def download_in_csv(csv_name, keyword, only_high_IF=False, only_second=False, Demo=True, STDOUT=sys.stdout):
     log_file_name = csv_name.replace(' ', '').replace('/', '')
     with open('./LiteratureSearchWorkDir/{}.log'.format(log_file_name), 'a') as f:
         start = 'start download files! '
         f.write(start)
         f.write('\n')
         f.close()
-    papers = pd.read_csv(csv_name)
-    papers = papers.values
+    papers_prepare = pd.read_csv('./{}'.format(csv_name))
+    papers_prepare = papers_prepare.values
+    if os.path.exists('./already_download.csv'):
+        print('restart_download')
+        papers_already = pd.read_csv('./already_download.csv', header=None)
+        papers_already = papers_already.values
+        doi_exists = []
+        for paper_already in papers_already:
+            doi_exists.append(paper_already[-1])
+    else:
+        doi_exists = []
+        pass
+    papers = papers_prepare
     num = 0
-    for paper in tqdm.tqdm((papers[:Global_Journal.DemoNumber] if Demo else papers),desc='download_in_csv',file=STDOUT):
+    for paper in tqdm.tqdm((papers[:Global_Journal.DemoNumber] if Demo else papers), desc='download_in_csv',
+                           file=STDOUT):
         num = num + 1
         Global_Journal.Print(num)
         doi = paper[-1]
+        if doi in doi_exists:
+            print('already downloaded: {}'.format(doi))
+            continue
+        else:
+            pass
         try:
+            print('doi', doi)
             logs = download_paper(doi, keyword, only_high_IF, only_second)
+            if 'succeed' in logs:
+                with open('./already_download.csv', 'a', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(paper)
         finally:
             try:
                 if len(logs) < 5:
@@ -483,6 +472,12 @@ def download_in_csv(csv_name, keyword, only_high_IF=False, only_second=False,Dem
                 f.write('\n')
                 f.close()
 if __name__ == '__main__':
-    Key_words = ['spin']
-    download_in_csv('./search_results/spin1980_2023RSC.csv', Key_words,
-                    only_high_IF=True, only_second=False)
+    dois = pd.read_csv('./doi_mistakes.csv')
+    dois = dois.values
+    for doi in dois:
+        print(doi[0])
+        pub = get_journal_and_url(doi[0])
+        print(pub)
+        with open('./publications.csv', 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([pub])

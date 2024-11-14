@@ -14,7 +14,22 @@ import shutil
 import sys
 from . import Global_Journal
 works = Works()
-ElsevierClient = ElsClient(os.getenv('ElsClientKey', ''))
+elsevier_api_key = None
+ElsevierClient = None
+def set_elsevier_api_key(api_key):
+    global elsevier_api_key, ElsevierClient
+    elsevier_api_key = api_key
+    if api_key:
+        ElsevierClient = ElsClient(api_key)
+    else:
+        ElsevierClient = None
+def get_elsevier_doi(pii):
+    global ElsevierClient
+    if not ElsevierClient:
+        raise ValueError("Elsevier API key not set")
+    DOI = FullDoc(sd_pii=pii)
+    DOI.read(ElsevierClient)
+    return DOI.int_id
 def make_query(query, Journal):
     query_list = query
     Journal_list = Journal
@@ -142,7 +157,6 @@ def get_all(key_words_fun, ACS_second_fun, api_key, year_start, year_end):
         if pages >= 10:
             print('Too much results, please check the query!!!')
             print('pages: {}'.format(pages))
-            print(links)
             return links
 def search_online(key_words_fun1, Journal_list, Api_list_fun, year_start, year_end, Journal_name='',Demo=True,STDOUT=sys.stdout):
     DOIs = []
@@ -181,3 +195,15 @@ def search_online(key_words_fun1, Journal_list, Api_list_fun, year_start, year_e
         year_list.append([GetYearFromDOI(doi_year[-1]), doi_year[-1]])
     save_to_csv(year_list, key_words_fun1, search_info + 'years_list')
     return filename
+if __name__ == '__main__':
+    research_keys = ["spin" , "catalysis"]
+    ACS = Global_Journal.ACS_publications
+    Wiley = Global_Journal.Wiley_publications
+    ELSEVIER_1 = Global_Journal.ELSEVIER_publications_1
+    ELSEVIER_2 = Global_Journal.ELSEVIER_publications_2
+    ELSEVIER_3 = Global_Journal.ELSEVIER_publications_3
+    Springer = Global_Journal.springer_publications_1 + Global_Journal.springer_publications_2
+    RSC = Global_Journal.RSC_publications_1 + Global_Journal.RSC_publications_2
+    ans = make_query(research_keys,ELSEVIER_1)
+    search_online(research_keys, Springer, Api_list, 1980, 2023, Journal_name='Springer')
+    search_online(research_keys, RSC, Api_list, 1980, 2023, Journal_name='RSC')

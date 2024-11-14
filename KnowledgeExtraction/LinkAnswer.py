@@ -3,8 +3,10 @@ from elsapy.elsdoc import FullDoc
 import os
 import re
 import shutil
-ElsevierClient = ElsClient(os.getenv('ElsClientKey', ''))
-def Main(Folder):
+def Main(Folder,apikey=None):
+    if apikey is None:
+        apikey = 'none'
+    ElsevierClient = ElsClient(apikey)
     os.chdir(Folder)
     os.makedirs('Answer',exist_ok=True)
     os.chdir('Answer')
