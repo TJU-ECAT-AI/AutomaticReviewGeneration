@@ -74,8 +74,9 @@ Note: If you are a developer or need customized features, please refer to the de
 
 # 教程 | Tutorials
 
-图形化界面使用中文教程 | Chinese tutorial on using GUI
-English tutorial on using GUI
+[图形化界面使用中文教程 | Chinese tutorial on using GUI](doc/GUI使用教程.md)
+
+[English tutorial on using GUI](doc/GUI_tutorial.md)
 
 # 功能特性 | Features
 
