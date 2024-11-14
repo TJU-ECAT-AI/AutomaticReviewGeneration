@@ -9,9 +9,9 @@ import time
 import json
 import shutil
 import requests
-URL=
-KEY=
-MODEL=
+URL=''
+KEY=''
+MODEL=''
 HEAD='''# Paragraph Topic Extractor and Question Generator
 You are an expert in academic writing and text analysis. Your task is to extract the main topic from a given paragraph of an academic review and then generate a single comprehensive question based on that topic. Follow these steps carefully:
 1. Read the provided paragraph carefully.

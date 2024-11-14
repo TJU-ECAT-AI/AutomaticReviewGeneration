@@ -10,9 +10,9 @@ import time
 import json
 import shutil
 import requests
-URL=
-KEY=
-MODEL=
+URL=''
+KEY=''
+MODEL=''
 HEAD='''# Integration of Multiple Topic Extractions and Questions
 You are an expert in academic writing, text analysis, and information synthesis. Your task is to integrate multiple topic extractions and generated questions from the same document into a cohesive and comprehensive summary. Follow these steps carefully:
 1. Review all provided topic extractions and generated questions.
