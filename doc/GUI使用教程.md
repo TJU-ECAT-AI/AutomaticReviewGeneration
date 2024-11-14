@@ -19,7 +19,7 @@
 > 4. **复制API密钥**
 >    - 复制API密钥以便在你的应用程序中使用。
 > 
-> #### LLM密钥（支持Claude2 API和OpenAI格式的API）
+> #### LLM密钥（支持Claude API和OpenAI格式的API）
 > 
 > 1. **注册或登录**
 >    - 确定LLM（大型语言模型）API提供商（如OpenAI），创建账户或登录。
@@ -47,59 +47,7 @@
 > - **再生产**：如果密钥被泄露，尽快从服务的仪表盘重新生成它。
 > - **使用限制**：了解与你的API密钥相关的任何使用限制或配额，以避免服务中断。
 
-# 二、设置环境变量（该步骤下述教程来自GPT4）
-> 
-> 需要设置的环境变量为：ElsClientKey，即上述步骤中获得的Elsevier密钥
-> 
-> 在Windows 10中，你可以使用命令行工具，如`cmd`或`PowerShell`来设置环境变量。这里提供了两种主要方法的指南。
-> 
-> #### 通过命令提示符（CMD）
-> 
-> 1. **设置临时环境变量**：
->    - 打开命令提示符（CMD）。
->    - 使用`set`命令来设置环境变量。这会在当前CMD会话中设置一个临时变量，关闭CMD窗口后该变量会消失。例如，设置一个名为`MYVAR`的环境变量，其值为`value`：
->      ```
->      set MYVAR=value
->      ```
-> 2. **设置永久环境变量**：
->    - 对于永久环境变量，你需要使用`setx`命令。这会永久地添加或修改环境变量，但只对新打开的命令行窗口有效。例如：
->      ```
->      setx MYVAR "value"
->      ```
->    - 若要为所有用户设置环境变量，请使用`/M`开关：
->      ```
->      setx /M MYVAR "value"
->      ```
->    
->    注意，当使用`setx`时，如果环境变量值中包含空格，需要用引号将值括起来。
-> 
-> #### 通过PowerShell
-> 
-> 1. **设置临时环境变量**：
->    - 打开PowerShell。
->    - 使用`$env:`来设置一个临时环境变量，这会在当前PowerShell会话中生效。例如：
->      ```
->      $env:MYVAR = "value"
->      ```
-> 2. **设置永久环境变量**：
->    - 使用`[System.Environment]::SetEnvironmentVariable`方法。这允许你为当前用户或所有用户设置永久环境变量。例如，为当前用户设置：
->      ```
->      [System.Environment]::SetEnvironmentVariable("MYVAR", "value", [System.EnvironmentVariableTarget]::User)
->      ```
->    - 为所有用户设置，请确保以管理员身份运行PowerShell，然后执行：
->      ```
->      [System.Environment]::SetEnvironmentVariable("MYVAR", "value", [System.EnvironmentVariableTarget]::Machine)
->      ```
->    
->    这需要管理员权限。
-> 
-> #### 注意事项
-> 
-> - 使用`setx`命令时，最大字符长度限制为1024个字符。
-> - 设置环境变量后，可能需要重新启动命令行工具或电脑，以便更改生效。
-> - 使用PowerShell设置环境变量时，选择`User`或`Machine`作为目标，分别代表当前用户和所有用户。
-
-# 三、下载预打包的exe文件并运行（该步骤下述教程来自GPT4）
+# 二、下载预打包的exe文件并运行（该步骤下述教程来自GPT4）
 > 
 > 以下步骤将指导你如何从指定的GitHub页面下载并运行exe文件。
 > 
@@ -114,8 +62,9 @@
 > 4. **运行exe文件**
 >    - 下载完成后，找到下载的`.exe`文件，双击运行。
 >    - 如果系统提示“未知的发布者”，选择“运行”以继续。
+> 5. **警告：并非所有电脑系统都会兼容此程序，如果发生兼容性问题，你需要下载Python源代码，并且按照说明文件正确安装所有依赖库，已运行该程序**
 
-# 四、界面按钮介绍
+# 三、界面按钮介绍
 >  **打开程序后界面如下**
 >  [![启动界面](0.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/0.png)
 > 
@@ -134,6 +83,7 @@
 >
 >  - Search Options：打开文献检索选项对话框
 >  - LLM Options：打开大语言模型选项对话框
+>  - Review Options：打开综述评定选项对话框
 >
 > <!-- -->   
 >
@@ -143,16 +93,17 @@
 > **折叠配置选项后界面如下**
 >  [![折叠选项界面](1.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/1.png)
 
-# 五、文献检索选项配置
+# 四、文献检索选项配置
 >  1. 文献检索选项配置对话框
 >  
 >  **打开文献检索选项配置对话框界面如下**
->  [![文献检索选项配置对话框](3.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/3.png)
+>  [![文献检索选项配置对话框](2.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/2.png)
 > 
+>  - Custom Journals：打开自定义文献列表，软件将仅检索用户自定义的文献，如果想重置文献列表，请删除所有自定义文献
 >  - Add to Serp API List：打开Serp API密钥（列表）配置对话框
 >  - Add to Research Keys：打开检索关键词（列表）配置对话框，即使用该关键词（列表）进行文献检索
 >  - Add to Screen Keys：打开过滤关键词（列表）配置对话框，即使用该关键词（列表）进行标题和摘要的过滤
->
+>  - Set Elsevier API Keys：设置Elsevier API密钥，用于期刊种类判断
 > <!-- -->   
 >
 >  - StartYear：文献检索起始年份
@@ -167,7 +118,7 @@
 >  2. Serp API密钥（列表）配置对话框
 >  
 >  **打开Serp API密钥（列表）配置对话框界面如下**
->  [![Serp API密钥（列表）配置对话框](4.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/4.png)
+>  [![Serp API密钥（列表）配置对话框](3.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/3.png)
 >
 >  输入前述步骤中获得的Serp API密钥，一次一个，不含引号，输入后点击`OK`。
 >
@@ -180,7 +131,7 @@
 > 3. 点击保存，关闭文献检索选项配置对话框
 >  
 >  **点击保存后程序界面如下**
->  [![文献检索选项配置结果输出](2.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/2.png)
+>  [![文献检索选项配置结果输出](4.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/4.png)
 >  
 >  除了Serp API密钥（列表）之外，其他选项内容均会打印在界面上
 >  
@@ -188,11 +139,11 @@
 >
 >  直接关闭文献检索选项配置对话框将不会保存文献检索配置选项
  
-# 六、大语言模型选项配置
+# 五、大语言模型选项配置
 >  1. 大语言模型选项配置对话框
 >  
 >  **打开大语言模型选项配置对话框界面如下**
->  [![大语言模型选项配置对话框](6.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/6.png)
+>  [![大语言模型选项配置对话框](5.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/5.png)
 > 
 >  - Add to Claude Api Key List：打开Claude API密钥（列表）配置对话框
 >  - Add to OpenAI-compatible API Url List：打开OpenAI格式API的网址（列表）配置对话框
@@ -202,7 +153,7 @@
 >  2. 关闭大语言模型选项配置对话框
 >
 >  **点击保存后程序界面如下**
->  [![大语言模型选项配置结果输出](5.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/5.png)
+>  [![大语言模型选项配置结果输出](6.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/6.png)
 >
 >  上述配置对话框与Serp API密钥（列表）配置对话框操作完全一致
 >
@@ -217,13 +168,27 @@
 >  建议配置后点击`Check LLM Response`检查配置的大语言模型是否能正常访问
 >
 >  **测试通过的示例如下**
->  [![大语言模型连接测试通过](5.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/5.png)
+>  [![大语言模型连接测试通过](7.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/7.png)
 >
 >  **测试失败的示例如下**
->  [![大语言模型连接测试失败](7.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/7.png)
+>  [![大语言模型连接测试失败](8.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/8.png)
 >  根据返回结果检查失败原因并重新配置
 >
 >  测试失败的大语言模型将不会被应用于综述生成过程中
+
+# 六、综述评估选项配置
+>  1. 综述评估选项配置对话框
+>  
+>  **打开综述评估选项配置对话框界面如下**
+>  [![综述评估选项配置对话框](9.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/9.png)
+> 
+>  - Skip Compare Articles：跳过文章段落对比部分
+>  - Direct Topic Generation：直接生成综述主题
+
+>  2. 关闭综述评估选项配置对话框
+>
+>  **点击保存后程序界面如下**
+>  [![综述评估选项配置结果输出](10.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/10.png)
 
 # 七、运行综述生成过程
 >  参考**四、界面按钮介绍**，选择运行的模块
@@ -237,10 +202,17 @@
 >  支持断点续跑，运行中断后重新运行即可
 >
 >  - **未完成文献检索过程的提示如下**
->  - [![未完成文献检索过程](8.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/8.png)
+>  - [![未完成文献检索过程](11.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/11.png)
 >
 >  - **未完成主题生成过程的提示如下**
->  - [![未完成主题生成过程](9.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/9.png)
+>  - [![未完成主题生成过程](12.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/12.png)
 >
 >  - **未完成知识提取过程的提示如下**
->  - [![未完成知识提取过程](10.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/10.png)
+>  - [![未完成知识提取过程](13.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/13.png)
+
+# 八、停止与重新启动
+>  程序运行后，综述生成按钮会自动变成终止按钮，按下之后，程序会结束所有进程然后在一段时间后重新启动，请耐心等待
+>  可以通过鼠标滚轮来查看输出窗口中的历史信息
+>  - **停止和重新启动界面如下**
+>  - [![停止界面与按钮](14.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/14.png)
+>  - [![重新启动界面](15.png)](https://raw.githubusercontent.com/Invalid-Null/AutomaticReviewGeneration/main/doc/15.png)
