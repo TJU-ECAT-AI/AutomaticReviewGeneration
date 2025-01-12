@@ -34,7 +34,7 @@ def run_topic_formulation(args):
     if args.claude_api_keys:
         claude_api = {i: Utility.GetResponse.GetResponseFromClaude for i, _ in enumerate(args.claude_api_keys)}
     if args.openai_api_urls and args.openai_api_keys:
-        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromClaudeViaWebAgent,
+        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromOpenAlClient,
                                            url=url, key=key, model=args.model)
                       for i, (url, key) in enumerate(zip(args.openai_api_urls, args.openai_api_keys))}
     if not claude_api and not openai_api:
@@ -92,7 +92,7 @@ def run_knowledge_extraction(args):
     if args.claude_api_keys:
         claude_api = {i: Utility.GetResponse.GetResponseFromClaude for i, _ in enumerate(args.claude_api_keys)}
     if args.openai_api_urls and args.openai_api_keys:
-        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromClaudeViaWebAgent,
+        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromOpenAlClient,
                                            url=url, key=key, model=args.model)
                       for i, (url, key) in enumerate(zip(args.openai_api_urls, args.openai_api_keys))}
     if not claude_api and not openai_api:
@@ -123,7 +123,7 @@ def run_review_composition(args):
     if args.claude_api_keys:
         claude_api = {i: Utility.GetResponse.GetResponseFromClaude for i, _ in enumerate(args.claude_api_keys)}
     if args.openai_api_urls and args.openai_api_keys:
-        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromClaudeViaWebAgent,
+        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromOpenAlClient,
                                            url=url, key=key, model=args.model)
                       for i, (url, key) in enumerate(zip(args.openai_api_urls, args.openai_api_keys))}
     if not claude_api and not openai_api:
@@ -164,7 +164,7 @@ def run_review_comparison(args):
         claude_api = {i: functools.partial(Utility.GetResponse.GetResponseFromClaude, api_key=key)
                       for i, key in enumerate(args.claude_api_keys)}
     if args.openai_api_urls and args.openai_api_keys:
-        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromClaudeViaWebAgent,
+        openai_api = {i: functools.partial(Utility.GetResponse.GetResponseFromOpenAlClient,
                                            url=url, key=key, model=args.model)
                       for i, (url, key) in enumerate(zip(args.openai_api_urls, args.openai_api_keys))}
     if not claude_api and not openai_api:
