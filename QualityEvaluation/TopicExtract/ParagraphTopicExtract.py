@@ -93,7 +93,7 @@ def GetResponseConcurrent(prompts):
                             semaphore1.release()
                         elif semaphore2.acquire(blocking=False):
                             semaphore_acquired = semaphore2
-                            response = GetResponseFromClaudeViaWebAgent(prompt,URL,KEY,MODEL)
+                            response = GetResponseFromOpenAlClient(prompt,URL,KEY,MODEL)
                             semaphore2.release()
                         else:
                             open('Waitlog','a').write('\t'.join([folder,time.strftime('%Y-%m-%d_%H.%M.%S',time.localtime()),'waiting\n']))
