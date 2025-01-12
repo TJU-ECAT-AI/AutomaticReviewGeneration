@@ -24,7 +24,7 @@ def GetResponseFromClaude(Prompt,api_key):
                    "content": Prompt,}])
     return message.content[0].text
 @func_timeout.func_set_timeout(3600)
-def GetResponseFromClaudeViaWebAgent(Prompt,url=URL,key=KEY,model=MODEL):
+def GetResponseFromOpenAlClient(Prompt,url=URL,key=KEY,model=MODEL):
     client = openai.OpenAI(api_key=key,base_url=url)
     completion = client.chat.completions.create(
         model=model,
