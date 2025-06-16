@@ -29,29 +29,7 @@ def GetResponseFromClaude(Prompt,api_key):
                    "content": Prompt,}])
     return message.content[0].text
 @func_timeout.func_set_timeout(600)
-def GetResponseFromClaudeViaWebAgent(Prompt,url,key):
-    ERRORLIST=[i.strip() for i in '''**claude-2 error**
-        ```Exceeded completions limit, expires
-         Claude2WebAPI
-        ```Streaming error```
-        AINewServer
-        '''.split('\n')]
-    url=url
-    headers = {"content-type": "application/json",
-        "Authorization": key,}
-    data={"messages":[{"role":"system","content":"",},{"role":"user",
-          "content":Prompt},],
-          "model":"claude-2-web","max_tokens_to_sample":65536,}
-    response = requests.post(url, headers=headers, json=data)
-    Current=json.loads(response.text)
-    if 'error' in Current:
-        raise RuntimeError(Current['error']['message'])
-    Current=Current["choices"][0]['message']['content']
-    if any([i for i in ERRORLIST if i in Current]):
-        raise RuntimeError([i for i in ERRORLIST if i in Current])
-    return Current
-@func_timeout.func_set_timeout(600)
-def GetResponseFromClaudeViaWebAgent(Prompt,url,key,model='gpt-3.5-turbo'):
+def GetResponseFromOpenAlClient(Prompt,url,key,model='gpt-3.5-turbo'):
     client = openai.OpenAI(api_key=key,base_url=url)
     completion = client.chat.completions.create(
         model=model,

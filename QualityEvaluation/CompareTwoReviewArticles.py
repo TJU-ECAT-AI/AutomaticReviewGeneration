@@ -25,7 +25,7 @@ def GetResponseFromClaude(Prompt,api_key):
                    "content": Prompt,}])
     return message.content[0].text
 @func_timeout.func_set_timeout(3600)
-def GetResponseFromClaudeViaWebAgent(Prompt,url=URL,key=KEY,model=MODEL):
+def GetResponseFromOpenAlClient(Prompt,url=URL,key=KEY,model=MODEL):
     client = openai.OpenAI(api_key=key,base_url=url)
     completion = client.chat.completions.create(
         model=model,
@@ -469,7 +469,7 @@ def GetResponseConcurrent(prompts, Threads, STDOUT):
                         semaphore1.release()
                     elif semaphore2.acquire(blocking=False):
                         semaphore_acquired = semaphore2
-                        response = GetResponseFromClaudeViaWebAgent(prompt)
+                        response = GetResponseFromOpenAlClient(prompt)
                         semaphore2.release()
                     else:
                         open('Waitlog', 'a').write('\t'.join([str(i), folder, part, time.strftime('%Y-%m-%d_%H.%M.%S', time.localtime()), 'waiting\n']))
