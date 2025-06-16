@@ -184,7 +184,7 @@ The package is supported for *Linux*, *Windows*, or other platforms that support
 To pack the GUI on Windows:
 
 ```
-pyinstaller -Fw GUI.py -i Icon.png --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext
+python buildGUI.py
 ```
 
 ## 使用方法 | Usage
@@ -291,31 +291,32 @@ Use `script.py` for command-line operations. Here are examples for each module w
 
 # 发表情况 | Publication
 
-专利申请已被专利局受理；文章正在提交中。
+专利申请已被专利局受理
 
-The patent application has been accepted by the Patent Office; the article is being submitted.
+The patent application has been accepted by the Patent Office
 
-[arXiv预印本 | arXiv Preprint](https://arxiv.org/abs/2407.20906)
+[论文 | Paper](https://doi.org/10.1093/nsr/nwaf169)
 
 引用格式 | Citation Format:
 
 论文引用 | Paper Citation:
 
 ```
-Wu S, Ma X, Luo D, et al. Automated review generation method based on large language models[J]. arXiv preprint arXiv:2407.20906, 2024.
+Wu S, Ma X, Luo D, et al. Automated literature research and review-generation method based on large language models[J]. National Science Review, 2025, 12(6): nwaf169.
 ```
 
 BibTeX:
 
 ```
-@misc{wu2024automatedreviewgenerationmethod,
-  title={Automated Review Generation Method Based on Large Language Models}, 
-  author={Shican Wu and Xiao Ma and Dehui Luo and Lulu Li and Xiangcheng Shi and Xin Chang and Xiaoyun Lin and Ran Luo and Chunlei Pei and Zhi-Jian Zhao and Jinlong Gong},
-  year={2024},
-  eprint={2407.20906},
-  archivePrefix={arXiv},
-  primaryClass={cs.CL},
-  url={https://arxiv.org/abs/2407.20906}, 
+@article{wu2025automated,
+  title={Automated literature research and review-generation method based on large language models},
+  author={Wu, Shican and Ma, Xiao and Luo, Dehui and Li, Lulu and Shi, Xiangcheng and Chang, Xin and Lin, Xiaoyun and Luo, Ran and Pei, Chunlei and others},
+  journal={National Science Review},
+  volume={12},
+  number={6},
+  pages={nwaf169},
+  year={2025},
+  publisher={Oxford University Press}
 }
 ```
 
