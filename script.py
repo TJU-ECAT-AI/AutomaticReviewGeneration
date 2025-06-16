@@ -1,10 +1,8 @@
 import argparse
-import sys
+import functools
 import os
 import shutil
-import functools
-from Utility import GetResponse
-from TopicFormulation import GetQuestionsFromReview
+import sys
 RootDir = os.path.abspath('.')
 TempDir = os.path.join(RootDir, 'Temp')
 os.makedirs(TempDir, exist_ok=True)

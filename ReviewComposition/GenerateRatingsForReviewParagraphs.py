@@ -1,15 +1,13 @@
-from threading import Thread, Semaphore
-from queue import Queue, Empty
-import xml.etree.ElementTree as ET
-import time
 import os
 import re
 import sys
-import tqdm
+import time
+import xml.etree.ElementTree as ET
+from queue import Queue, Empty
+from threading import Thread, Semaphore
 import json
-import shutil
-import requests
 import func_timeout
+import tqdm
 HEAD='''Based on the attached content below containing multiple review paragraphs focused on the topic of "'''
 MIDDLE0='''", evaluate each paragraph on the following dimensions:
 1. **Clarity** (10 points): Is the paragraph clearly written and easy to understand?
@@ -35,34 +33,27 @@ Using these criteria, evaluate each paragraph methodically, ensuring that each d
 END="""
 </Paragraphs>
 </file-attachment-contents>
-After evaluating all paragraphs for each dimension, provide scores for each dimension individually. 
+After evaluating all the paragraphs for each dimension, all the information is stored in a dictionary in the JSON format as shown below. Remember that "scores" is a list containing the score details of each paragraph and "best_paragraph_ID" is a string containing the best paragraph ID. Only output the JSON result, don't output anything else.
 For example:
-<Scores>
-    <Paragraph id="1">
-        <Clarity>8</Clarity>
-        <Depth>7</Depth>
-        <Relevance>9</Relevance>
-        <Coherence>7</Coherence>
-        <Originality>6</Originality>
-        <Evidence-based>8</Evidence-based>
-        <Structure>9</Structure>
-        <TextLength>16</TextLength>
-        <DistinctNumberOfDOIs>18</DistinctNumberOfDOIs>
-        <Comprehensiveness>8</Comprehensiveness>
-        <TotalScore>88</TotalScore>
-    </Paragraph>
-    <!-- Scores for additional paragraphs -->
-</Scores>
-Finally, identify and present the paragraph that achieved the highest combined score:
-<BestParagraphResult>
-    <ParagraphID>1</ParagraphID>
-    <Content>
-        {Raw content of the top-scoring paragraph}
-        <References>
-        {Raw references from the top-scoring paragraph}
-        </References>
-    </Content>
-</BestParagraphResult>
+{
+    "scores": [
+        {
+            "paragraph_id": "1",
+            "clarity": 8,
+            "depth": 7,
+            "relevance": 9,
+            "coherence": 7,
+            "originality": 6,
+            "evidence_based": 8,
+            "structure": 9,
+            "text_length": 16,
+            "distinct_number_of_dois": 18,
+            "comprehensiveness": 8,
+            "total_score": 88
+        }
+    ],
+    "best_paragraph_ID": "-1"
+}
 """
 def replace_with_html_entities(text):
     entities = {
@@ -97,7 +88,7 @@ def GetResponseConcurrent(prompts,Threads,FunctionClaudeAPI,FunctionOpenAIAPI,ST
         ClaudeAPISemaphore.append(Semaphore(value=1))
     for i in FunctionOpenAIAPI:
         OpenAIAPISemaphore.append(Semaphore(value=3))
-    progress_bar = tqdm.tqdm(total=len(prompts), position=0, desc='GenerateRatingsForReviewParagraphs',file=STDOUT)
+    progress_bar = tqdm.tqdm(total=len(prompts), position=0, desc='选择最优段落',file=STDOUT)
     def worker():
         while True:
             try:
@@ -129,28 +120,33 @@ def GetResponseConcurrent(prompts,Threads,FunctionClaudeAPI,FunctionOpenAIAPI,ST
                         open('Waitlog', 'a').write('\t'.join([str(i), folder, part, time.strftime('%Y-%m-%d_%H.%M.%S', time.localtime()), 'waiting\n']))
                         time.sleep(0.5)
                         continue
-                    if (
-                        not (re.search(r'<Scores>\s*<Paragraph\s*id="\d+">\s*<Clarity>', response))
-                           or ('※※' not in response)
-                           or ('TotalScore'not in response)
-                           or ('<References>'not in response)):
+                    if (not (re.search(r'"scores"\s*:\s*\[\s*\{\s*"paragraph_id"', response))
+                           or ('total_score'not in response)
+                           or ('best_paragraph_ID'not in response)):
                         open(os.path.join(f'Paragraph', f'Best{part}_{TRY}.txt'),'w',encoding='UTF8').write(response+'\n')
                         TRY+=1
                         continue
                     try:
-                        content='<?xml version="1.0" encoding="UTF-8"?>\n<Scores>\n'+response.strip().split('<Scores>')[-1]
-                        content=content.split('</Scores>')[0]+'\n</Scores>'
-                        root = ET.fromstring(content)
+                        json_content = '{' + response.split('{',1)[-1].rsplit('}',1)[0] + '}'
+                        try:
+                            data = json.loads(json_content)
+                        except json.JSONDecodeError:
+                            data = json.loads(json_content[:-1])
                         total_scores = []
-                        for paragraph in root.findall('Paragraph'):
-                            total_scores.append(int(paragraph.find('TotalScore').text))
-                    except:
+                        if 'scores' in data and isinstance(data['scores'], list) and 'best_paragraph_ID' in data and (isinstance(data['best_paragraph_ID'], str) or isinstance(data['best_paragraph_ID'], int)):
+                            for paragraph in data['scores']:
+                                if 'total_score' in paragraph:
+                                    total_scores.append(int(paragraph['total_score']))
+                            total_scores.append(int(data['best_paragraph_ID']))
+                        if not total_scores:
+                            raise ValueError("No valid total_scores found")
+                    except (json.JSONDecodeError, ValueError, KeyError) as e:
                         open(os.path.join(f'Paragraph', f'Best{part}_{TRY}.txt'),'w',encoding='UTF8').write(response+'\n')
                         TRY+=1
                         continue
                     with open(os.path.join(f'Paragraph', f'Best{part}.txt'), 'w', encoding='UTF8') as file:
                         file.write(response + '\n')
-                    break
+                    break                    
                 except (Exception,func_timeout.exceptions.FunctionTimedOut) as e:
                     pattern = r"Function\s+(\S+).*?timed out after\s+(\d+\.\d+)\s+seconds."
                     replacement = r"\1 timed out after \2 s"
@@ -167,11 +163,11 @@ def GetResponseConcurrent(prompts,Threads,FunctionClaudeAPI,FunctionOpenAIAPI,ST
         thread.join()
     progress_bar.close()
 def extract_sections_with_tags(content):
-    english_matches = re.findall(r"<English>(.*?)</English>", content, re.DOTALL)
-    chinese_matches = re.findall(r"<Chinese>(.*?)</Chinese>", content, re.DOTALL)
-    reference_matches = re.findall(r"<References>(.*?)</References>", content, re.DOTALL)
-    reference_matches=reference_matches if reference_matches else re.findall(r"<Reference>(.*?)</Reference>", content, re.DOTALL)
-    return '\n'.join(english_matches), '\n'.join(chinese_matches), '\n'.join(reference_matches)
+    content='{'+content.split('{',1)[-1].rsplit('}',1)[0]+'}'
+    content=json.loads(content)
+    content_matches=content['Content']
+    reference_matches=content['References']
+    return content_matches,'\n'.join(reference_matches)
 def Main(Folder,Threads,FunctionClaudeAPI,FunctionOpenAIAPI,STDOUT):
     old_stdout = sys.stdout
     sys.stdout = STDOUT
@@ -194,8 +190,8 @@ def Main(Folder,Threads,FunctionClaudeAPI,FunctionOpenAIAPI,STDOUT):
         merged_content=[]
         for file_name in file_dict[i]:
             with open(os.path.join('Paragraph', file_name), 'r',encoding='UTF8') as file:
-                english_matches, chinese_matches, reference_matches=extract_sections_with_tags(file.read())
-                merged_content.append(f'    <Paragraph id="{file_name.split("_")[1].split(".")[0]}">\n'+english_matches.strip()+'\n<References>\n'+reference_matches.strip()+'\n</References>\n</Paragraph>')
+                content_matches, reference_matches=extract_sections_with_tags(file.read())
+                merged_content.append(f'    <Paragraph id="{file_name.split("_")[1].split(".")[0]}">\n'+content_matches.strip()+'\n<References>\n'+reference_matches.strip()+'\n</References>\n</Paragraph>')
         prompt = replace_with_html_entities(HEAD + ParagraphQuestionsForReview[i-1] + MIDDLE0 + ParagraphQuestionsForReview[i-1] + MIDDLE1) +'\n'.join(merged_content)+END
         open(f'Paragraph{os.sep}PromptBest{i}.txt', 'w', encoding='UTF8').write(prompt)
         prompts.append((i, f"{i}", f"Paragraph{i}", prompt))

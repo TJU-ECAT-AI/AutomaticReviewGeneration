@@ -35,7 +35,7 @@ def GetResponseFromOpenAlClient(Prompt, url, key, model='glm-4-flash', max_token
         model=model,
         messages=[{"role": "system", "content": ''}, {"role": "user", "content": Prompt}],
         top_p=0.7,
-        temperature=0.3,
+        temperature=0.5,
         max_tokens=max_tokens,
     )
     return completion.choices[0].message.content

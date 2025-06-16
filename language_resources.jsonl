@@ -1,0 +1,335 @@
+{"key": "app_title", "zh": "Deep Review V1.0 - 高级版", "en": "Deep Review V1.0 - Advanced"}
+{"key": "app_title_trial", "zh": "Deep Review V1.0 - 高级版 (测试版 剩余 {days} 天)", "en": "Deep Review V1.0 - Advanced (Trial {days} days left)"}
+{"key": "app_title_licensed", "zh": "Deep Review V1.0 - 高级版 (正式版)", "en": "Deep Review V1.0 - Advanced (Licensed)"}
+
+{"key": "tab_basic", "zh": "基本设置", "en": "Basic Settings"}
+{"key": "tab_llm", "zh": "LLM设置", "en": "LLM Settings"}
+{"key": "tab_search_api", "zh": "检索API", "en": "Search APIs"}
+{"key": "tab_keywords", "zh": "关键词设置", "en": "Keywords"}
+
+{"key": "theme_light", "zh": "浅色", "en": "Light"}
+{"key": "theme_dark", "zh": "深色", "en": "Dark"}
+{"key": "language_zh", "zh": "中文", "en": "中文"}
+{"key": "language_en", "zh": "English", "en": "English"}
+
+{"key": "topic", "zh": "综述主题", "en": "Review Topic"}
+{"key": "topic_help", "zh": "输入您要生成综述的主题", "en": "Enter the topic for your review"}
+{"key": "demo_mode", "zh": "演示模式", "en": "Demo Mode"}
+{"key": "demo_mode_help", "zh": "只下载3篇文献用于测试功能", "en": "Download only 3 papers for testing"}
+{"key": "whole_process", "zh": "完整流程", "en": "Whole Process"}
+{"key": "whole_process_help", "zh": "执行完整的综述生成流程", "en": "Execute complete review generation process"}
+{"key": "skip_search", "zh": "跳过文献检索", "en": "Skip Literature Search"}
+{"key": "skip_search_help", "zh": "如果已有文献，可跳过检索步骤", "en": "Skip search if you already have literature"}
+{"key": "skip_topic", "zh": "跳过主题构建", "en": "Skip Topic Formulation"}
+{"key": "skip_topic_help", "zh": "如果已有主题文件，可跳过此步骤", "en": "Skip if you already have topic file"}
+{"key": "skip_knowledge", "zh": "跳过知识提取", "en": "Skip Knowledge Extraction"}
+{"key": "skip_knowledge_help", "zh": "如果已有知识提取结果，可跳过此步骤", "en": "Skip if you already have extraction results"}
+{"key": "skip_review", "zh": "跳过综述撰写", "en": "Skip Review Composition"}
+{"key": "skip_review_help", "zh": "如果已有综述段落，可跳过此步骤", "en": "Skip if you already have review paragraphs"}
+{"key": "skip_compare", "zh": "跳过比较综述", "en": "Skip Review Comparison"}
+{"key": "skip_compare_help", "zh": "直接输出综述，不进行质量评分", "en": "Output review directly without quality scoring"}
+{"key": "direct_topic", "zh": "直接生成主题", "en": "Direct Topic Generation"}
+{"key": "direct_topic_help", "zh": "基于输入主题直接生成，速度快但针对性差", "en": "Generate directly from input topic, faster but less targeted"}
+
+{"key": "model_name", "zh": "模型名称", "en": "Model Name"}
+{"key": "base_url", "zh": "基础地址", "en": "Base URL"}
+{"key": "api_key", "zh": "API密钥", "en": "API Key"}
+{"key": "max_tokens", "zh": "最大Token", "en": "Max Tokens"}
+{"key": "status", "zh": "状态", "en": "Status"}
+{"key": "add", "zh": "添加", "en": "Add"}
+{"key": "update", "zh": "更新", "en": "Update"}
+{"key": "delete", "zh": "删除", "en": "Delete"}
+{"key": "test", "zh": "测试", "en": "Test"}
+{"key": "test_selected", "zh": "测试选中", "en": "Test Selected"}
+{"key": "test_all", "zh": "测试全部", "en": "Test All"}
+
+{"key": "serp_api", "zh": "Serp API", "en": "Serp API"}
+{"key": "serp_api_help", "zh": "用于Google Scholar检索的API密钥", "en": "API key for Google Scholar search"}
+{"key": "elsevier_api", "zh": "Elsevier API", "en": "Elsevier API"}
+{"key": "elsevier_api_help", "zh": "用于获取期刊信息的API密钥", "en": "API key for journal information"}
+
+{"key": "research_keywords", "zh": "研究关键词", "en": "Research Keywords"}
+{"key": "research_keywords_help", "zh": "用于文献检索的关键词，用AND连接", "en": "Keywords for literature search, connected with AND"}
+{"key": "screen_keywords", "zh": "筛选关键词", "en": "Screen Keywords"}
+{"key": "screen_keywords_help", "zh": "用于文献筛选的关键词，用OR连接", "en": "Keywords for literature screening, connected with OR"}
+{"key": "keyword", "zh": "关键词", "en": "Keyword"}
+
+{"key": "journal_selection", "zh": "期刊选择", "en": "Journal Selection"}
+{"key": "q1_journals", "zh": "Q1期刊", "en": "Q1 Journals"}
+{"key": "q2q3_journals", "zh": "Q2&Q3期刊", "en": "Q2&Q3 Journals"}
+{"key": "custom_journals", "zh": "自定义期刊", "en": "Custom Journals"}
+{"key": "start_year", "zh": "开始年份", "en": "Start Year"}
+{"key": "end_year", "zh": "结束年份", "en": "End Year"}
+{"key": "max_papers", "zh": "最大文献数", "en": "Max Papers"}
+{"key": "max_papers_help", "zh": "要下载的最大文献数量（上限200篇）。这是目标数量，不保证能下满指定数量，实际下载数量取决于检索结果和筛选条件", "en": "Maximum number of papers to download (limit 200). This is the target number, not guaranteed to reach the specified amount. Actual downloads depend on search results and filtering criteria"}
+{"key": "input_warning", "zh": "输入警告", "en": "Input Warning"}
+{"key": "max_papers_warning", "zh": "由于SerpAPI限制，最大文献数不能超过200篇。已自动调整为200篇。", "en": "Due to SerpAPI limitations, maximum papers cannot exceed 200. Automatically adjusted to 200."}
+{"key": "help_basic_content", "zh": "基本设置用于配置综述生成的核心参数：\n\n• 演示模式：仅下载少量文献进行功能测试\n• 完整流程：执行完整的综述生成过程\n• 跳过选项：如果某个步骤已完成，可跳过该步骤\n• 直接生成主题：基于输入主题直接生成，速度快但质量可能较低\n• 最大文献数：设置要下载的目标文献数量（不超过200篇）", "en": "Basic settings configure core parameters for review generation:\n\n• Demo Mode: Download few papers for functionality testing\n• Whole Process: Execute complete review generation\n• Skip Options: Skip steps that are already completed\n• Direct Topic Generation: Generate directly from input, faster but potentially lower quality\n• Max Papers: Set target number of papers to download (up to 200)"}
+{"key": "papers_downloaded", "zh": "已下载文献", "en": "Papers Downloaded"}
+{"key": "target_reached", "zh": "已达到目标文献数", "en": "Target paper count reached"}
+{"key": "download_progress", "zh": "下载进度：{current}/{target}", "en": "Download Progress: {current}/{target}"}
+
+
+{"key": "status_ready", "zh": "状态：就绪", "en": "Status: Ready"}
+{"key": "status_running", "zh": "状态：运行中", "en": "Status: Running"}
+{"key": "status_finished", "zh": "状态：已完成", "en": "Status: Finished"}
+{"key": "status_error", "zh": "状态：错误", "en": "Status: Error"}
+{"key": "status_interrupted", "zh": "状态：已中断", "en": "Status: Interrupted"}
+
+{"key": "run_review", "zh": "运行Deep Review", "en": "Run Deep Review"}
+{"key": "stop_process", "zh": "停止进程", "en": "Stop Process"}
+{"key": "about", "zh": "关于", "en": "About"}
+
+{"key": "log_output", "zh": "日志输出", "en": "Log Output"}
+{"key": "expand_log", "zh": "展开日志", "en": "Expand Log"}
+{"key": "collapse_log", "zh": "折叠日志", "en": "Collapse Log"}
+
+{"key": "auth_title", "zh": "用户验证", "en": "User Authentication"}
+{"key": "username", "zh": "用户名", "en": "Username"}
+{"key": "password", "zh": "密码", "en": "Password"}
+{"key": "verify", "zh": "验证", "en": "Verify"}
+{"key": "try_trial", "zh": "试用 (30天)", "en": "Try (30 days)"}
+{"key": "auth_prompt", "zh": "请输入用户名和密码进行验证，或选择试用模式", "en": "Please enter username and password or choose trial mode"}
+{"key": "register_prompt", "zh": "请在熵纳科技官网进行注册", "en": "Please register on Entropy Technology website"}
+{"key": "click_register", "zh": "点击注册", "en": "Click to Register"}
+{"key": "auth_failed", "zh": "用户名或密码不正确", "en": "Incorrect username or password"}
+{"key": "trial_remaining", "zh": "此软件为测试版，剩余使用天数：{days} 天", "en": "This is trial version, remaining days: {days}"}
+{"key": "trial_expired", "zh": "测试版试用期已结束！请在登录界面点击链接进行注册。", "en": "Trial period has ended! Please register via the link on login page."}
+
+{"key": "api_testing", "zh": "正在测试API...", "en": "Testing API..."}
+{"key": "api_test_success", "zh": "测试成功", "en": "Test Success"}
+{"key": "api_test_failed", "zh": "测试失败", "en": "Test Failed"}
+{"key": "api_added", "zh": "API已添加", "en": "API Added"}
+{"key": "api_updated", "zh": "API已更新", "en": "API Updated"}
+{"key": "api_deleted", "zh": "API已删除", "en": "API Deleted"}
+{"key": "keyword_added", "zh": "关键词已添加", "en": "Keyword Added"}
+{"key": "keyword_updated", "zh": "关键词已更新", "en": "Keyword Updated"}
+{"key": "keyword_deleted", "zh": "关键词已删除", "en": "Keyword Deleted"}
+{"key": "keyword_exists", "zh": "关键词已存在", "en": "Keyword Already Exists"}
+
+{"key": "input_required", "zh": "请输入必填字段", "en": "Please fill required fields"}
+{"key": "invalid_input", "zh": "输入格式无效", "en": "Invalid input format"}
+{"key": "confirm_delete", "zh": "确认删除", "en": "Confirm Delete"}
+{"key": "delete_confirmation", "zh": "确定要删除选中的项目吗？", "en": "Are you sure you want to delete selected item?"}
+
+{"key": "literature_search", "zh": "文献检索", "en": "Literature Search"}
+{"key": "topic_formulation", "zh": "主题构建", "en": "Topic Formulation"}
+{"key": "knowledge_extraction", "zh": "知识提取", "en": "Knowledge Extraction"}
+{"key": "review_composition", "zh": "综述撰写", "en": "Review Composition"}
+{"key": "review_comparison", "zh": "综述比较", "en": "Review Comparison"}
+
+{"key": "process_starting", "zh": "进程启动中...", "en": "Process starting..."}
+{"key": "process_stopping", "zh": "进程停止中...", "en": "Process stopping..."}
+{"key": "settings_saved", "zh": "设置已保存", "en": "Settings Saved"}
+
+{"key": "about_title", "zh": "关于 Deep Review", "en": "About Deep Review"}
+{"key": "about_content", "zh": "Deep Review V1.0 - 高级版\n1. 文章信息：\n该程序旨在自动生成学术综述，涵盖文献检索、主题制定、知识提取和综述撰写。\n\n2. GitHub链接：\nhttps://github.com/TJU-ECAT-AI/AutomaticReviewGeneration\n\n3. 引用信息：\nShican Wu, Xiao Ma, Dehui Luo, Lulu Li, Xiangcheng Shi, Xin Chang, Xiaoyun Lin, Ran Luo, Chunlei Pei, Changyin Du, Zhi-Jian Zhao, Jinlong Gong, Automated literature research and review generation method based on large language models, National Science Review, 2025;, nwaf169, https://doi.org/10.1093/nsr/nwaf169\n\n\n\n4. Ecat主页\n   https://gonglab.tju.edu.cn/\n\n\n\n5. AIStrucX主页\n   https://www.aistrucx.com/", "en": "Deep Review V1.0 - Advanced\n\n1. Article Information:\nThis program is designed for automated generation of academic reviews, covering literature search, topic formulation, knowledge extraction, and review composition.\n\n2. Github Link:\nhttps://github.com/TJU-ECAT-AI/AutomaticReviewGeneration\n\n3. Citation Information:\n   Shican Wu, Xiao Ma, Dehui Luo, Lulu Li, Xiangcheng Shi, Xin Chang, Xiaoyun Lin, Ran Luo, Chunlei Pei, Changyin Du, Zhi-Jian Zhao, Jinlong Gong, Automated literature research and review generation method based on large language models, National Science Review, 2025;, nwaf169, https://doi.org/10.1093/nsr/nwaf169\n\n\n\n4. Ecat Homepage\n   https://gonglab.tju.edu.cn/\n\n\n\n5. AIStrucX Homepage\n   https://www.aistrucx.com/"}
+
+{"key": "help_basic_title", "zh": "基本设置帮助", "en": "Basic Settings Help"}
+{"key": "help_basic_content", "zh": "基本设置用于配置综述生成的核心参数：\n\n• 演示模式：仅下载少量文献进行功能测试\n• 完整流程：执行完整的综述生成过程\n• 跳过选项：如果某个步骤已完成，可跳过该步骤\n• 直接生成主题：基于输入主题直接生成，速度快但质量可能较低", "en": "Basic settings configure core parameters for review generation:\n\n• Demo Mode: Download few papers for functionality testing\n• Whole Process: Execute complete review generation\n• Skip Options: Skip steps that are already completed\n• Direct Topic Generation: Generate directly from input, faster but potentially lower quality"}
+
+{"key": "help_llm_title", "zh": "LLM设置帮助", "en": "LLM Settings Help"}
+{"key": "help_llm_content", "zh": "LLM设置用于配置大语言模型API：\n\n• 模型名称：如claude-3、gpt-4等\n• 基础地址：API的基础URL\n• API密钥：访问API所需的密钥\n• 最大Token：单次请求的最大Token数\n\n支持多个API配置，系统会自动轮换使用。", "en": "LLM settings configure large language model APIs:\n\n• Model Name: Like claude-3, gpt-4, etc.\n• Base URL: The base URL for the API\n• API Key: The key required to access API\n• Max Tokens: Maximum tokens per request\n\nSupports multiple API configurations with automatic rotation."}
+
+{"key": "help_search_api_title", "zh": "检索API帮助", "en": "Search API Help"}
+{"key": "help_search_api_content", "zh": "检索API用于文献检索和信息获取：\n\n• Serp API：用于Google Scholar检索\n• Elsevier API：用于获取期刊详细信息\n\n请在相应官网申请API密钥。", "en": "Search APIs are used for literature search and information retrieval:\n\n• Serp API: For Google Scholar search\n• Elsevier API: For journal detailed information\n\nPlease apply for API keys on respective official websites."}
+
+{"key": "help_keywords_title", "zh": "关键词设置帮助", "en": "Keywords Settings Help"}
+{"key": "help_keywords_content", "zh": "关键词设置用于文献检索和筛选：\n\n• 研究关键词：用于文献检索，多个关键词用AND连接\n• 筛选关键词：用于文献筛选，多个关键词用OR连接\n\n建议研究关键词精确，筛选关键词全面。", "en": "Keywords settings are used for literature search and filtering:\n\n• Research Keywords: For literature search, multiple keywords connected with AND\n• Screen Keywords: For literature filtering, multiple keywords connected with OR\n\nRecommend precise research keywords and comprehensive screen keywords."}
+
+{"key": "theme_help", "zh": "切换界面主题（浅色/深色）", "en": "Toggle interface theme (light/dark)"}
+{"key": "language_help", "zh": "切换界面语言（中文/English）", "en": "Toggle interface language (中文/English)"}
+{"key": "options_help", "zh": "综述生成的基本选项设置", "en": "Basic options for review generation"}
+{"key": "search_settings_help", "zh": "文献检索的高级设置，包括期刊选择、时间范围和文献数量限制", "en": "Advanced settings for literature search, including journal selection, time range and paper count limits"}
+{"key": "journal_selection_help", "zh": "选择要检索的期刊类型", "en": "Select journal types to search"}
+{"key": "q1_journals_help", "zh": "包含中科院分区一区的期刊", "en": "Include Q1 journals"}
+{"key": "q2q3_journals_help", "zh": "包含中科院分区二三区的期刊", "en": "Include Q2 and Q3 journals"}
+{"key": "custom_journals_help", "zh": "打开编辑器自定义期刊列表", "en": "Open editor to customize journal list"}
+{"key": "start_year_help", "zh": "检索文献的起始年份", "en": "Starting year for literature search"}
+{"key": "end_year_help", "zh": "检索文献的结束年份", "en": "Ending year for literature search"}
+
+{"key": "model_name_help", "zh": "大语言模型的名称", "en": "Name of the large language model"}
+{"key": "base_url_help", "zh": "API服务的基础URL地址", "en": "Base URL address of the API service"}
+{"key": "api_key_help", "zh": "访问API服务所需的密钥", "en": "API key required to access the service"}
+{"key": "max_tokens_help", "zh": "单次请求的最大Token数量", "en": "Maximum number of tokens per request"}
+{"key": "add_llm_help", "zh": "添加新的LLM配置", "en": "Add new LLM configuration"}
+{"key": "delete_llm_help", "zh": "删除选中的LLM配置", "en": "Delete selected LLM configuration"}
+{"key": "test_selected_help", "zh": "测试选中的LLM配置是否可用", "en": "Test if selected LLM configuration is available"}
+{"key": "test_all_help", "zh": "测试所有LLM配置的可用性", "en": "Test availability of all LLM configurations"}
+{"key": "concurrency", "zh": "并发数", "en": "Concurrency"}
+{"key": "concurrency_help", "zh": "该API配置的并发请求数量，建议根据API限制设置", "en": "Number of concurrent requests for this API configuration, recommended based on API limits"}
+{"key": "no_llm_selected", "zh": "请先选择一个LLM配置", "en": "Please select an LLM configuration first"}
+{"key": "no_llm_data", "zh": "无法获取选中的LLM配置数据", "en": "Cannot get selected LLM configuration data"}
+{"key": "no_llm_configs", "zh": "没有可测试的LLM配置", "en": "No LLM configurations to test"}
+{"key": "testing_llm_start", "zh": "开始测试LLM: {model} ({url})", "en": "Starting LLM test: {model} ({url})"}
+{"key": "testing_all_llm_start", "zh": "开始测试所有LLM配置 (共{count}个)", "en": "Starting test for all LLM configurations ({count} total)"}
+{"key": "testing_llm_progress", "zh": "测试进度: {current}/{total} - {model}", "en": "Test progress: {current}/{total} - {model}"}
+{"key": "sending_test_request", "zh": "发送测试请求到: {model}", "en": "Sending test request to: {model}"}
+{"key": "claude_response_received", "zh": "Claude响应已收到: {model} (长度: {response_length})", "en": "Claude response received: {model} (length: {response_length})"}
+{"key": "openai_response_received", "zh": "OpenAI响应已收到: {model} (长度: {response_length})", "en": "OpenAI response received: {model} (length: {response_length})"}
+{"key": "llm_test_success", "zh": "✓ LLM测试成功: {model} (并发数: {concurrency})", "en": "✓ LLM test successful: {model} (concurrency: {concurrency})"}
+{"key": "llm_test_failed", "zh": "✗ LLM测试失败: {model} - {error}", "en": "✗ LLM test failed: {model} - {error}"}
+{"key": "testing_llm_complete", "zh": "LLM测试完成: {model}", "en": "LLM test completed: {model}"}
+{"key": "waiting_between_tests", "zh": "等待中... (避免API限制)", "en": "Waiting... (avoiding API limits)"}
+{"key": "testing_all_llm_complete", "zh": "所有LLM测试完成 - 总计: {total}, 成功: {success}, 失败: {failed}", "en": "All LLM tests completed - Total: {total}, Success: {success}, Failed: {failed}"}
+{"key": "api_testing", "zh": "测试中...", "en": "Testing..."}
+{"key": "api_test_success", "zh": "测试成功", "en": "Test Success"}
+{"key": "api_test_failed", "zh": "测试失败", "en": "Test Failed"}
+{"key": "deleting_llm_config", "zh": "正在删除LLM配置: {model}", "en": "Deleting LLM configuration: {model}"}
+{"key": "confirm_delete_llm", "zh": "确定要删除选中的LLM配置吗？", "en": "Are you sure you want to delete the selected LLM configuration?"}
+{"key": "llm_config_deleted", "zh": "LLM配置已删除", "en": "LLM configuration deleted"}
+{"key": "confirm_delete", "zh": "确认删除", "en": "Confirm Delete"}
+
+
+{"key": "add_serp_help", "zh": "添加新的Serp API密钥", "en": "Add new Serp API key"}
+{"key": "serp_list_help", "zh": "双击删除Serp API密钥", "en": "Double-click to remove Serp API key"}
+{"key": "add_elsevier_help", "zh": "添加新的Elsevier API密钥", "en": "Add new Elsevier API key"}
+{"key": "elsevier_list_help", "zh": "双击删除Elsevier API密钥", "en": "Double-click to remove Elsevier API key"}
+
+{"key": "add_research_keyword_help", "zh": "添加新的研究关键词", "en": "Add new research keyword"}
+{"key": "delete_research_keyword_help", "zh": "删除选中的研究关键词", "en": "Delete selected research keyword"}
+{"key": "research_tree_help", "zh": "点击选择要编辑的研究关键词", "en": "Click to select research keyword for editing"}
+{"key": "add_screen_keyword_help", "zh": "添加新的筛选关键词", "en": "Add new screen keyword"}
+{"key": "delete_screen_keyword_help", "zh": "删除选中的筛选关键词", "en": "Delete selected screen keyword"}
+{"key": "screen_tree_help", "zh": "点击选择要编辑的筛选关键词", "en": "Click to select screen keyword for editing"}
+
+{"key": "status_help", "zh": "显示当前程序运行状态", "en": "Show current program running status"}
+{"key": "log_toggle_help", "zh": "展开或折叠日志面板", "en": "Expand or collapse log panel"}
+{"key": "log_text_help", "zh": "显示程序运行的详细日志", "en": "Show detailed program execution logs"}
+{"key": "run_review_help", "zh": "开始运行Deep Review综述生成流程", "en": "Start running Deep Review generation process"}
+{"key": "about_help", "zh": "显示关于Deep Review的信息", "en": "Show information about Deep Review"}
+
+{"key": "auto_checked", "zh": "已自动勾选", "en": "Auto-checked"}
+{"key": "literature_search_completed", "zh": "✅ 文献检索已完成", "en": "✅ Literature search completed"}
+{"key": "topic_formulation_completed", "zh": "✅ 主题构建已完成", "en": "✅ Topic formulation completed"}
+{"key": "knowledge_extraction_completed", "zh": "✅ 知识提取已完成", "en": "✅ Knowledge extraction completed"}
+{"key": "review_composition_completed", "zh": "✅ 综述撰写已完成", "en": "✅ Review composition completed"}
+{"key": "review_comparison_completed", "zh": "✅ 综述比较已完成", "en": "✅ Review comparison completed"}
+
+{"key": "step_completed", "zh": "步骤已完成", "en": "Step completed"}
+{"key": "step_skipped", "zh": "步骤已跳过", "en": "Step skipped"}
+{"key": "auto_skip_enabled", "zh": "自动跳过已启用", "en": "Auto-skip enabled"}
+
+
+{"key": "step_in_progress", "zh": "步骤进行中", "en": "Step in progress"}
+{"key": "all_steps_completed", "zh": "所有步骤已完成", "en": "All steps completed"}
+{"key": "process_auto_managed", "zh": "流程自动管理", "en": "Process auto-managed"}
+
+{"key": "status_waiting", "zh": "等待中", "en": "Waiting"}
+{"key": "status_running", "zh": "运行中", "en": "Running"}
+{"key": "status_completed", "zh": "已完成", "en": "Completed"}
+{"key": "status_error", "zh": "错误", "en": "Error"}
+{"key": "status_skipped", "zh": "已跳过", "en": "Skipped"}
+
+{"key": "literature_search", "zh": "文献检索", "en": "Literature\nSearch"}
+{"key": "topic_formulation", "zh": "主题构建", "en": "Topic\nFormulation"}
+{"key": "knowledge_extraction", "zh": "知识提取", "en": "Knowledge\nExtraction"}
+{"key": "review_composition", "zh": "综述撰写", "en": "Review\nComposition"}
+{"key": "review_comparison", "zh": "综述比较", "en": "Review\nComparison"}
+
+{"key": "literature_search_status_help", "zh": "文献检索步骤状态：⏳等待 ⚡运行中 ✅完成 ❌错误 ⏭️跳过", "en": "Literature search status: ⏳Waiting ⚡Running ✅Completed ❌Error ⏭️Skipped"}
+{"key": "topic_formulation_status_help", "zh": "主题构建步骤状态：⏳等待 ⚡运行中 ✅完成 ❌错误 ⏭️跳过", "en": "Topic formulation status: ⏳Waiting ⚡Running ✅Completed ❌Error ⏭️Skipped"}
+{"key": "knowledge_extraction_status_help", "zh": "知识提取步骤状态：⏳等待 ⚡运行中 ✅完成 ❌错误 ⏭️跳过", "en": "Knowledge extraction status: ⏳Waiting ⚡Running ✅Completed ❌Error ⏭️Skipped"}
+{"key": "review_composition_status_help", "zh": "综述撰写步骤状态：⏳等待 ⚡运行中 ✅完成 ❌错误 ⏭️跳过", "en": "Review composition status: ⏳Waiting ⚡Running ✅Completed ❌Error ⏭️Skipped"}
+{"key": "review_comparison_status_help", "zh": "综述比较步骤状态：⏳等待 ⚡运行中 ✅完成 ❌错误 ⏭️跳过", "en": "Review comparison status: ⏳Waiting ⚡Running ✅Completed ❌Error ⏭️Skipped"}
+
+{"key": "max_token_calculated", "zh": "已计算最大Token数", "en": "Max Token calculated"}
+{"key": "available_tokens", "zh": "可用Token配置", "en": "Available token configurations"}
+{"key": "no_llm_config_found", "zh": "未找到LLM配置", "en": "No LLM configuration found"}
+{"key": "using_default_token", "zh": "使用默认Token数", "en": "Using default token count"}
+{"key": "max_token_calculation_error", "zh": "计算最大Token数时出错", "en": "Error calculating max tokens"}
+
+{"key": "failed", "zh": "失败", "en": "Failed"}
+{"key": "step_started", "zh": "步骤开始", "en": "Step started"}
+{"key": "step_finished", "zh": "步骤完成", "en": "Step finished"}
+
+{"key": "process_status_help", "zh": "显示综述生成流程各步骤的实时状态", "en": "Shows real-time status of review generation process steps"}
+{"key": "all_steps_ready", "zh": "所有步骤就绪", "en": "All steps ready"}
+{"key": "process_running", "zh": "流程运行中", "en": "Process running"}
+{"key": "process_completed", "zh": "流程已完成", "en": "Process completed"}
+{"key": "process_failed", "zh": "流程失败", "en": "Process failed"}
+
+{"key": "step_status_changed", "zh": "步骤状态已更改", "en": "Step status changed"}
+{"key": "auto_status_update", "zh": "自动状态更新", "en": "Auto status update"}
+{"key": "manual_status_reset", "zh": "手动状态重置", "en": "Manual status reset"}
+
+{"key": "token_config_updated", "zh": "Token配置已更新", "en": "Token configuration updated"}
+{"key": "min_token_selected", "zh": "已选择最小Token数", "en": "Minimum token count selected"}
+{"key": "token_optimization", "zh": "Token优化", "en": "Token optimization"}
+
+{"key": "error_no_serp_api", "zh": "❌ **错误**: 缺少Serp API密钥，请在检索API标签页中添加", "en": "❌ **Error**: Missing Serp API key, please add in Search APIs tab"}
+{"key": "error_no_elsevier_api", "zh": "❌ **错误**: 缺少Elsevier API密钥，请在检索API标签页中添加", "en": "❌ **Error**: Missing Elsevier API key, please add in Search APIs tab"}
+{"key": "error_no_research_keywords", "zh": "❌ **错误**: 缺少研究关键词，请在关键词设置标签页中添加", "en": "❌ **Error**: Missing research keywords, please add in Keywords tab"}
+{"key": "error_no_screen_keywords", "zh": "❌ **错误**: 缺少筛选关键词，请在关键词设置标签页中添加", "en": "❌ **Error**: Missing screen keywords, please add in Keywords tab"}
+{"key": "error_no_llm_api", "zh": "❌ **错误**: 缺少大模型API密钥，请在LLM设置标签页中添加", "en": "❌ **Error**: Missing LLM API key, please add in LLM Settings tab"}
+
+{"key": "configuration_check_failed", "zh": "配置检查失败", "en": "Configuration check failed"}
+{"key": "missing_required_config", "zh": "缺少必需的配置项", "en": "Missing required configuration"}
+{"key": "config_error_occurred", "zh": "配置错误", "en": "Configuration error"}
+
+{"key": "please_add_serp_api", "zh": "请添加Serp API密钥", "en": "Please add Serp API key"}
+{"key": "please_add_elsevier_api", "zh": "请添加Elsevier API密钥", "en": "Please add Elsevier API key"}
+{"key": "please_add_research_keywords", "zh": "请添加研究关键词", "en": "Please add research keywords"}
+{"key": "please_add_screen_keywords", "zh": "请添加筛选关键词", "en": "Please add screen keywords"}
+{"key": "please_add_llm_api", "zh": "请添加大模型API密钥", "en": "Please add LLM API key"}
+
+{"key": "error_configuration_incomplete", "zh": "配置不完整", "en": "Configuration incomplete"}
+{"key": "setup_required_before_start", "zh": "启动前需要完成必要配置", "en": "Required setup needed before start"}
+{"key": "check_settings_tabs", "zh": "请检查相关设置标签页", "en": "Please check relevant settings tabs"}
+
+{"key": "error_bold_prefix", "zh": "❌ **错误**:", "en": "❌ **Error**:"}
+{"key": "warning_bold_prefix", "zh": "⚠️ **警告**:", "en": "⚠️ **Warning**:"}
+{"key": "info_bold_prefix", "zh": "ℹ️ **信息**:", "en": "ℹ️ **Info**:"}
+
+{"key": "close", "zh": "关闭", "en": "Close"}
+{"key": "no_selection", "zh": "未选择", "en": "No Selection"}
+{"key": "no_api_selected", "zh": "请先选择一个API", "en": "Please select an API first"}
+{"key": "no_keyword_selected", "zh": "请先选择一个关键词", "en": "Please select a keyword first"}
+{"key": "no_changes_made", "zh": "未进行任何更改", "en": "No changes made"}
+
+{"key": "exception_serp_api", "zh": "❌ **错误**: 缺少Serp API密钥，请在检索API标签页中添加有效的Serp API密钥", "en": "❌ **Error**: Missing Serp API key, please add valid Serp API key in Search APIs tab"}
+{"key": "exception_elsevier_api", "zh": "❌ **错误**: 缺少Elsevier API密钥，请在检索API标签页中添加有效的Elsevier API密钥", "en": "❌ **Error**: Missing Elsevier API key, please add valid Elsevier API key in Search APIs tab"}
+{"key": "exception_research_keywords", "zh": "❌ **错误**: 缺少研究关键词，请在关键词设置标签页中添加至少一个研究关键词", "en": "❌ **Error**: Missing research keywords, please add at least one research keyword in Keywords tab"}
+{"key": "exception_screen_keywords", "zh": "❌ **错误**: 缺少筛选关键词，请在关键词设置标签页中添加至少一个筛选关键词", "en": "❌ **Error**: Missing screen keywords, please add at least one screen keyword in Keywords tab"}
+{"key": "exception_llm_api", "zh": "❌ **错误**: 缺少大模型API密钥，请在LLM设置标签页中添加有效的Claude或OpenAI API密钥", "en": "❌ **Error**: Missing LLM API key, please add valid Claude or OpenAI API key in LLM Settings tab"}
+
+{"key": "testing_elsevier_api", "zh": "正在测试 Elsevier API Key", "en": "Testing Elsevier API Key"}
+{"key": "elsevier_api_available", "zh": "Elsevier API Key 可用", "en": "Elsevier API Key available"}
+{"key": "elsevier_api_unavailable", "zh": "Elsevier API Key 不可用", "en": "Elsevier API Key unavailable"}
+{"key": "all_elsevier_keys_failed", "zh": "所有 Elsevier API Key 都不可用", "en": "All Elsevier API Keys are unavailable"}
+{"key": "elsevier_api_check_complete", "zh": "Elsevier API Key 检查完成", "en": "Elsevier API Key check completed"}
+{"key": "elsevier_api_set_success", "zh": "Elsevier API Key 设置完成", "en": "Elsevier API Key set successfully"}
+{"key": "elsevier_api_get_success", "zh": "Elsevier API Key 获取成功", "en": "Elsevier API Key retrieved successfully"}
+{"key": "elsevier_api_get_failed", "zh": "无法获取可用的 Elsevier API Key", "en": "Cannot get available Elsevier API Key"}
+
+{"key": "checking_api_availability", "zh": "检查 API 可用性", "en": "Checking API availability"}
+{"key": "api_validation_in_progress", "zh": "API 验证进行中", "en": "API validation in progress"}
+{"key": "api_key_testing", "zh": "API Key 测试中", "en": "API Key testing"}
+{"key": "trying_next_api_key", "zh": "尝试下一个 API Key", "en": "Trying next API Key"}
+
+{"key": "network_error_api_test", "zh": "网络错误，无法测试 API", "en": "Network error, cannot test API"}
+{"key": "api_test_timeout", "zh": "API 测试超时", "en": "API test timeout"}
+{"key": "api_key_invalid", "zh": "API Key 无效", "en": "API Key invalid"}
+{"key": "api_key_valid", "zh": "API Key 有效", "en": "API Key valid"}
+{"key": "api_rate_limited", "zh": "API 请求频率受限", "en": "API rate limited"}
+
+{"key": "elsevier_connection_test", "zh": "Elsevier 连接测试", "en": "Elsevier connection test"}
+{"key": "elsevier_auth_failed", "zh": "Elsevier 认证失败", "en": "Elsevier authentication failed"}
+{"key": "elsevier_access_denied", "zh": "Elsevier 访问被拒绝", "en": "Elsevier access denied"}
+{"key": "elsevier_service_unavailable", "zh": "Elsevier 服务不可用", "en": "Elsevier service unavailable"}
+
+{"key": "stop_process", "zh": "停止进程", "en": "Stop Process"}
+{"key": "stopping_process", "zh": "正在停止进程...", "en": "Stopping process..."}
+{"key": "status_stopping", "zh": "状态：正在停止", "en": "Status: Stopping"}
+{"key": "process_stopping", "zh": "正在停止...", "en": "Stopping..."}
+{"key": "process_stopped", "zh": "进程已停止", "en": "Process stopped"}
+{"key": "process_stopped_by_user", "zh": "进程已被用户停止", "en": "Process stopped by user"}
+{"key": "status_completed", "zh": "状态：已完成", "en": "Status: Completed"}
+{"key": "process_completed_successfully", "zh": "进程成功完成", "en": "Process completed successfully"}
+
+{"key": "stop_process", "zh": "立即停止", "en": "Stop Now"}
+{"key": "stopping_process_immediately", "zh": "立即停止进程...", "en": "Stopping process immediately..."}
+{"key": "process_stopped_immediately", "zh": "进程已立即停止", "en": "Process stopped immediately"}
+{"key": "process_stopped_by_user", "zh": "进程已被用户停止", "en": "Process stopped by user"}
+{"key": "status_completed", "zh": "状态：已完成", "en": "Status: Completed"}
+{"key": "process_completed_successfully", "zh": "进程成功完成", "en": "Process completed successfully"}

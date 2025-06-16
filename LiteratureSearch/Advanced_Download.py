@@ -1,21 +1,18 @@
 import difflib
+import os
+import re
+import sys
 import time
-import shutil
 import pandas as pd
 import requests
-from elsapy.elsclient import ElsClient
+import tqdm
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.common.exceptions import InvalidArgumentException
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.edge.options import Options
-from . import Global_Journal
 from selenium.common.exceptions import NoSuchDriverException
-import tqdm
-import os
-import sys
-import re
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from . import Global_Journal
 def get_journal_and_url(doi):
     base_url = "https://api.crossref.org/works/"
     doi = doi.replace('/full', '')
@@ -373,31 +370,80 @@ def find_element(driver, Xpath_name):
             type_text = 'element not found'
     return type_text
 def get_text(doi, paper_type, title, abstract, text):
+    driver = None
     try:
-        driver = webdriver.Edge()
-    except NoSuchDriverException:
-        return 'InvalidArgumentException', 'InvalidArgumentException', 'InvalidArgumentException', 'InvalidArgumentException'
-    wall_time = 0
-    while wall_time <= 3:
-        wall_time = wall_time + 1
         try:
-            driver.get(doi)
-            break
-        except InvalidArgumentException:
-            return 'InvalidArgumentException', 'InvalidArgumentException', 'InvalidArgumentException', 'InvalidArgumentException'
-        except TimeoutException:
+            os.system("taskkill /f /im msedgedriver.exe")
+            os.system("pkill -f msedgedriver")
+        except Exception:
             pass
-    loading(driver)
-    Wait_num = 0
-    while Wait_num < 5:
-        judge_loading = find_element(driver, text)
-        if len(judge_loading) < 50:
-            Wait_num = Wait_num + 1
-            time.sleep(5)
-            Global_Journal.Print('sleep 5 second')
-        else:
-            break
-    return find_element(driver, paper_type), find_element(driver, title), find_element(driver, abstract), judge_loading
+        import uuid
+        import tempfile
+        temp_dir = os.path.join(tempfile.gettempdir(), f"edge_data_{uuid.uuid4().hex}")
+        if os.path.exists(temp_dir):
+            try:
+                shutil.rmtree(temp_dir)
+            except Exception:
+                pass
+        os.makedirs(temp_dir, exist_ok=True)
+        options = webdriver.EdgeOptions()
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--incognito")
+        options.add_argument(f"--user-data-dir={temp_dir}")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--no-user-data-dir")
+        from selenium.webdriver.edge.service import Service
+        service = Service(log_path=os.path.devnull)
+        driver = webdriver.Edge(options=options, service=service)
+        driver.set_page_load_timeout(30)
+        wall_time = 0
+        while wall_time <= 3:
+            wall_time += 1
+            try:
+                driver.get(doi)
+                break
+            except InvalidArgumentException:
+                if driver:
+                    driver.quit()
+                return 'InvalidArgumentException', 'InvalidArgumentException', 'InvalidArgumentException', 'InvalidArgumentException'
+            except TimeoutException:
+                print(f"超时，尝试第 {wall_time} 次...")
+                if wall_time == 3 and driver:
+                    driver.quit()
+                    return 'TimeoutException', 'TimeoutException', 'TimeoutException', 'TimeoutException'
+                continue
+        loading(driver)
+        Wait_num = 0
+        judge_loading = ""
+        while Wait_num < 5:
+            judge_loading = find_element(driver, text)
+            if len(judge_loading) < 50:
+                Wait_num += 1
+                time.sleep(5)
+                Global_Journal.Print('sleep 5 second')
+            else:
+                break
+        return (find_element(driver, paper_type),
+                find_element(driver, title),
+                find_element(driver, abstract),
+                judge_loading)
+    except Exception as e:
+        print(f"获取文本时出错: {str(e)}")
+        return 'Exception', 'Exception', 'Exception', f'Error: {str(e)}'
+    finally:
+        if driver:
+            try:
+                driver.quit()
+            except Exception:
+                pass
+        try:
+            if 'temp_dir' in locals() and os.path.exists(temp_dir):
+                shutil.rmtree(temp_dir, ignore_errors=True)
+        except Exception:
+            pass
 def judge_relevance(key_words, text, relevance_coefficient=0):
     related_keyword_number = 0
     for key_word in key_words:
@@ -414,7 +460,7 @@ def judge_relevance(key_words, text, relevance_coefficient=0):
         return False
 def download_paper(doi, key_words, only_high_IF=False, only_second=False):
     journal, url = get_journal_and_url(doi)
-    print(url,journal)
+    print(url, journal)
     paper_type, title, abstract, text = get_Xpath(get_publications(journal, only_high_IF, only_second))
     if paper_type is None:
         return 'the paper type of doi ： {} is None'.format(doi)
@@ -439,10 +485,19 @@ def download_paper(doi, key_words, only_high_IF=False, only_second=False):
                                                                                                                  '').replace(
                     '/', '_').replace('?', '')
         txt_name = process_doi_string(txt_name)
-        with open('./LiteratureSearchWorkDir/{}'.format(txt_name), 'wb') as f:
-            f.write(bytes_data)
-            f.close()
-            return 'succeed download {}'.format(doi)
+        file_path = './LiteratureSearchWorkDir/{}'.format(txt_name)
+        if os.path.exists(file_path):
+            Global_Journal.Print(f'File already exists: {txt_name}')
+            return f'File already exists: {doi}'
+        try:
+            with open(file_path, 'wb') as f:
+                f.write(bytes_data)
+                f.close()
+                Global_Journal.Print(f'Successfully downloaded: {txt_name}')
+                return 'succeed download {}'.format(doi)
+        except Exception as e:
+            Global_Journal.Print(f'Error saving file {txt_name}: {str(e)}')
+            return f'Error saving file: {doi}'
     else:
         return 'No related paper : {}'.format(doi)
 def process_doi_string(input_string):
@@ -452,36 +507,57 @@ def process_doi_string(input_string):
         return match.group(2)
     else:
         return "No valid DOI found"
-def download_in_csv(csv_name, keyword, only_high_IF=False, only_second=False,Demo=True,STDOUT=sys.stdout):
+def download_in_csv(csv_name, keyword, only_high_IF=False, only_second=False, Demo=True, max_papers=100, STDOUT=sys.stdout):
     log_file_name = csv_name.replace(' ', '').replace('/', '')
     with open('./LiteratureSearchWorkDir/{}.log'.format(log_file_name), 'a') as f:
-        start = 'start download files! '
+        start = f'start download files! Target: {max_papers} papers'
         f.write(start)
         f.write('\n')
         f.close()
     papers = pd.read_csv(csv_name)
     papers = papers.values
     num = 0
-    for paper in tqdm.tqdm((papers[:Global_Journal.DemoNumber] if Demo else papers),desc='download_in_csv',file=STDOUT):
+    downloaded_count = 0
+    if hasattr(Global_Journal, 'downloaded_papers_count'):
+        current_total = Global_Journal.downloaded_papers_count
+    else:
+        current_total = 0
+        Global_Journal.downloaded_papers_count = 0
+    target_papers = getattr(Global_Journal, 'max_papers_target', max_papers)
+    print(f'Starting download: Current total: {current_total}, Target: {target_papers}')
+    for paper in tqdm.tqdm((papers[:Global_Journal.DemoNumber] if Demo else papers), desc='下载文献', file=STDOUT):
+        if Global_Journal.downloaded_papers_count >= target_papers:
+            print(f'Target paper count ({target_papers}) reached. Stopping download in this CSV.')
+            break
         num = num + 1
-        Global_Journal.Print(num)
+        Global_Journal.Print(f'Processing paper {num}, Current total downloaded: {Global_Journal.downloaded_papers_count}')
         doi = paper[-1]
+        logs = ""
         try:
             logs = download_paper(doi, keyword, only_high_IF, only_second)
+            if logs.startswith('succeed download'):
+                downloaded_count += 1
+                Global_Journal.downloaded_papers_count += 1
+                print(f'Successfully downloaded paper {Global_Journal.downloaded_papers_count}/{target_papers}: {doi}')
+        except Exception as e:
+            logs = f'Error {doi}: {str(e)}'
         finally:
-            try:
-                if len(logs) < 5:
-                    logs = 'Error {}'.format(doi)
-            except UnboundLocalError:
+            if len(logs) < 5:
                 logs = 'Error {}'.format(doi)
-            finally:
-                pass
             with open('./LiteratureSearchWorkDir/{}.log'.format(log_file_name), 'a') as f:
                 f.write(str(num))
                 f.write('\n')
                 f.write(logs)
                 f.write('\n')
+                f.write(f'Total downloaded so far: {Global_Journal.downloaded_papers_count}\n')
                 f.close()
+    print(f'Completed processing CSV {csv_name}')
+    print(f'Downloaded {downloaded_count} papers from this CSV')
+    print(f'Total papers downloaded: {Global_Journal.downloaded_papers_count}/{target_papers}')
+    with open('./LiteratureSearchWorkDir/{}.log'.format(log_file_name), 'a') as f:
+        f.write(f'Completed: Downloaded {downloaded_count} papers from this CSV\n')
+        f.write(f'Total downloaded: {Global_Journal.downloaded_papers_count}/{target_papers}\n')
+        f.close()
 if __name__ == '__main__':
     Key_words = ['spin']
     download_in_csv('./search_results/spin1980_2023RSC.csv', Key_words,

@@ -217,7 +217,7 @@ def GetDataList(Folder, MaxToken=25000):
             AllPrompt.extend(content)
     for folder in folders:
         file_path_doc = f'RawFromPDF/{folder}'
-        with open(file_path_doc, 'r', encoding='UTF8') as f:
+        with open(file_path_doc, 'r', encoding='UTF8',errors='replace') as f:
             doc = GetRefineContents(f.read())
         prompt_framework = FormattedPromptHead + FormattedPromptMiddle + FormattedPromptEnd
         framework_tokens = num_tokens_from_string(prompt_framework)

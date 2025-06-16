@@ -19,7 +19,7 @@ def GetResponse(PromptList, PromptDir, Threads, FunctionClaudeAPI, FunctionOpenA
     for i in FunctionOpenAIAPI:
         OpenAIAPISemaphore.append(Semaphore(value=3))
     Repeat = 5
-    progress_bar = tqdm.tqdm(total=len(PromptList) * Repeat, position=0, desc='GetInfoFromLiterature', file=STDOUT)
+    progress_bar = tqdm.tqdm(total=len(PromptList) * Repeat, position=0, desc='信息提取', file=STDOUT)
     for i, PromptFile in enumerate(PromptList):
         Name = PromptFile.split('.txt')[0].strip('Prompt')
         PART = PromptFile.split(".txt")[-1]

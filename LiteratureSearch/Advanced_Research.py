@@ -1,17 +1,16 @@
-import serpapi
-import time
-import os
 import json
+import os
+import sys
+import time
 import pandas as pd
+import requests
+import serpapi
+import tqdm
+from bs4 import BeautifulSoup
+from crossref.restful import Works
 from elsapy.elsclient import ElsClient
 from elsapy.elsdoc import FullDoc
-from crossref.restful import Works
 from requests.exceptions import ConnectionError
-from bs4 import BeautifulSoup
-import requests
-import tqdm
-import shutil
-import sys
 from . import Global_Journal
 works = Works()
 elsevier_api_key = None
@@ -26,7 +25,7 @@ def set_elsevier_api_key(api_key):
 def get_elsevier_doi(pii):
     global ElsevierClient
     if not ElsevierClient:
-        raise ValueError("Elsevier API key not set")
+        raise Exception("Elsevier API key not set")
     DOI = FullDoc(sd_pii=pii)
     DOI.read(ElsevierClient)
     return DOI.int_id
@@ -107,7 +106,7 @@ def save_to_csv(data, csv_file_path, other_information=''):
     df = pd.DataFrame(data, columns=['year', 'DOI'])
     df.to_csv('./search_results/{}.csv'.format(keyword_name), index=False)
     return keyword_name
-def get_all(key_words_fun, ACS_second_fun, api_key, year_start, year_end):
+def get_all(key_words_fun, ACS_second_fun, api_key, year_start, year_end, max_pages=10):
     query = make_query(key_words_fun, ACS_second_fun)
     links = []
     pages = 0
@@ -154,15 +153,18 @@ def get_all(key_words_fun, ACS_second_fun, api_key, year_start, year_end):
         pages = pages + 1
         time.sleep(2)
         Global_Journal.Print('Pages {}'.format(pages))
-        if pages >= 10:
+        if max_pages >= 25:
+            print('界面数量限制过高,可能会导致API出错或者过度消耗，已自动将页数调整到25页，即浏览Google Scholar的前500篇文献，如有特殊需要，请对源代码进行修改，或者自行下载剩余文献')
+            max_pages = 25
+        if pages >= max_pages:
             print('Too much results, please check the query!!!')
             print('pages: {}'.format(pages))
             return links
-def search_online(key_words_fun1, Journal_list, Api_list_fun, year_start, year_end, Journal_name='',Demo=True,STDOUT=sys.stdout):
+def search_online(key_words_fun1, Journal_list, Api_list_fun, year_start, year_end, Journal_name='',Demo=True, max_pages=10,STDOUT=sys.stdout):
     DOIs = []
-    all_ans = get_all(key_words_fun1, Journal_list, Api_list_fun, year_start, year_end)
+    all_ans = get_all(key_words_fun1, Journal_list, Api_list_fun, year_start, year_end, max_pages)
     search_info = str(year_start) + '_' + str(year_end) + Journal_name
-    for ans in tqdm.tqdm((all_ans[:Global_Journal.DemoNumber] if Demo else all_ans),desc='search_online',file=STDOUT):
+    for ans in tqdm.tqdm((all_ans[:Global_Journal.DemoNumber] if Demo else all_ans),desc='检索文献',file=STDOUT):
         if ans.find('rsc') != -1:
             tmp_doi = '10.1039/' + ans.split('/')[-1]
             DOIs.append(['DOI', tmp_doi])

@@ -1,4 +1,6 @@
 DemoNumber=3
+max_papers_target = 100
+downloaded_papers_count = 0
 def Print(*Content,sep='\t'):
     with open('run.log','a',encoding='UTF8') as FILE:
         FILE.write(sep.join([str(i) for i in Content])+'\n')

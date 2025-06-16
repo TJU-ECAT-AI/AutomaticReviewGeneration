@@ -35,7 +35,6 @@ def Main(Folder, STDOUT):
                            int(PART.removeprefix('PART')) * chunk_size + chunk_size + 1), *range(chunk_size + 1)]]]
                 [os.makedirs(i, exist_ok=True) for i in [str(i) for i in range(1, chunk_size + 1)]]
                 if OutOfRange:
-                    print(Name, 'OUT OF RANGE.', Questions.keys(), OutOfRange, sep='\t')
                     ErrorList.append(Name)
                 for i in Questions.keys():
                     if i not in OutOfRange:
@@ -57,8 +56,6 @@ def Main(Folder, STDOUT):
                         open(f'{Folder}{os.sep}EnglishWithQuotes.txt', 'a', encoding="utf-8").write(
                             json.dumps(NoChineseAnswer, ensure_ascii=False) + ',\n')
             except ET.ParseError:
-                print(Name, 'FAILED.', sep='\t')
-                print(traceback.format_exc())
                 ErrorList.append(Name)
         if ErrorList:
             RemoveCommands.append(
@@ -66,11 +63,6 @@ def Main(Folder, STDOUT):
             AllErrorList.extend(ErrorList)
         os.chdir('..')
     print('\nSplited Into Folders.')
-    if AllErrorList:
-        print('\nErrorList:')
-        print('\n'.join(AllErrorList))
-        print('\n')
-        print('\n'.join(RemoveCommands))
     os.chdir('..')
     os.chdir('..')
     sys.stdout = old_stdout

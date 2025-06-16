@@ -1,19 +1,17 @@
+import json
 import os
 import re
 import sys
 import time
-import tqdm
-import json
-import openai
-import func_timeout
-import xml.etree.ElementTree as ET
 from itertools import permutations
-from threading import Thread, Semaphore
 from queue import Queue, Empty
-URL = 'https://open.bigmodel.cn/api/paas/v4/'
-KEY = 'Key'
-MODEL = 'glm-4-flash'
-max_tokens = 524288
+from threading import Thread, Semaphore
+import func_timeout
+import tqdm
+URL = ''
+KEY = ''
+MODEL = ''
+max_tokens = -1
 HEAD = '''You are a professional literature review expert. Your task is to evaluate and compare two review articles on the topic of "'''
 MIDDLE0 = '''" based on the provided scoring criteria. Please carefully read the following instructions and scoring criteria, then evaluate the two provided articles.
 The scoring criteria are as follows:

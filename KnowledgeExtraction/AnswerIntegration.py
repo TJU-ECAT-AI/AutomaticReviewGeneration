@@ -132,7 +132,7 @@ def GetResponse(Folders, AllPrompt, chunk_size, Threads, FunctionClaudeAPI, Func
             else:
                 Responses.update({part: ''})
         [prompt_queue.put((FolderIndex, Folder, part, Prompt, Responses[part])) for part, Prompt in Prompts.items()]
-    progress_bar = tqdm.tqdm(total=prompt_queue.qsize(), position=0, desc='AnswerIntegrationWithRelevanceCheck',
+    progress_bar = tqdm.tqdm(total=prompt_queue.qsize(), position=0, desc='答案聚合',
                              file=STDOUT)
     def worker():
         while True:
@@ -144,9 +144,16 @@ def GetResponse(Folders, AllPrompt, chunk_size, Threads, FunctionClaudeAPI, Func
                 [str(FolderIndex), Folder, part, time.strftime('%Y-%m-%d_%H.%M.%S', time.localtime()), 'start\n']))
             if True:
                 TRY = 0
+                MAX_TRIES = 50
                 with open(f'{Folder}{os.sep}PromptAnswerWithRelevanceCheck.{part}.txt', 'w', encoding='UTF-8') as file:
                     file.write(prompt + '\n')
                 while True:
+                    if TRY >= MAX_TRIES:
+                        error_message = f"错误: {Folder} 中的 {part} 处理尝试次数超过 {MAX_TRIES} 次，停止处理。"
+                        with open(f'{Folder}{os.sep}AnswerWithRelevanceCheck.{part}.txt', 'w',
+                                  encoding='UTF-8') as file:
+                            file.write(f"※※※※※※※{error_message}※※※※※※※\n")
+                        break
                     semaphore_acquired = None
                     try:
                         for semaphore, GetResponseFunction in zip(ClaudeAPISemaphore, FunctionClaudeAPI.values()):
@@ -190,6 +197,12 @@ def GetResponse(Folders, AllPrompt, chunk_size, Threads, FunctionClaudeAPI, Func
                                 open(f'{Folder}{os.sep}AnswerWithRelevanceCheck_{TRY}.txt', 'w', encoding='UTF8').write(
                                     Response + '\n')
                                 TRY += 1
+                                if TRY >= MAX_TRIES:
+                                    error_message = f"错误: {Folder} 中的 {part} XML解析失败且尝试次数超过 {MAX_TRIES} 次，停止处理。"
+                                    with open(f'{Folder}{os.sep}AnswerWithRelevanceCheck.{part}.txt', 'w',
+                                              encoding='UTF-8') as file:
+                                        file.write(f"※※※※※※※{error_message}※※※※※※※\n")
+                                    break
                                 continue
                         with open(f'{Folder}{os.sep}AnswerWithRelevanceCheck.{part}.txt', 'w',
                                   encoding='UTF-8') as file:
@@ -204,6 +217,12 @@ def GetResponse(Folders, AllPrompt, chunk_size, Threads, FunctionClaudeAPI, Func
                             [str(FolderIndex), Folder, part, time.strftime('%Y-%m-%d_%H.%M.%S', time.localtime()),
                              re.sub(pattern, replacement, str(e), flags=re.DOTALL), '\n']))
                         TRY += 1
+                        if TRY >= MAX_TRIES:
+                            error_message = f"错误: {Folder} 中的 {part} 发生异常且尝试次数超过 {MAX_TRIES} 次，停止处理。"
+                            with open(f'{Folder}{os.sep}AnswerWithRelevanceCheck.{part}.txt', 'w',
+                                      encoding='UTF-8') as file:
+                                file.write(f"※※※※※※※{error_message}※※※※※※※\n")
+                            break
                         continue
                 progress_bar.update(1)
             else:
@@ -229,13 +248,9 @@ def Main(Folder, Threads, FunctionClaudeAPI, FunctionOpenAIAPI, STDOUT, MaxToken
     for i in range(0, len(content), chunk_size):
         chunk = content[i:i + chunk_size]
         AllPrompt.append('\n'.join(chunk))
-    print(f"Total number of questions: {len(content)}")
-    print(f"Number of chunks in AllPrompt: {len(AllPrompt)}")
     for i, chunk in enumerate(AllPrompt):
         questions_in_chunk = chunk.count('\n') + 1
-        print(f"Chunk {i + 1} contains {questions_in_chunk} questions")
         first_question = chunk.split('\n')[0]
-        print(f"First question in chunk {i + 1}: {first_question[:50]}...")
     GetResponse(Folders, AllPrompt, chunk_size, Threads, FunctionClaudeAPI, FunctionOpenAIAPI, STDOUT, MaxToken)
     os.chdir('..')
     sys.stdout = old_stdout
