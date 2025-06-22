@@ -29,14 +29,14 @@ def GetResponseFromClaude(Prompt,api_key):
                    "content": Prompt,}])
     return message.content[0].text
 @func_timeout.func_set_timeout(600)
-def GetResponseFromOpenAlClient(Prompt, url, key, model='glm-4-flash', max_tokens=4096):
+def GetResponseFromOpenAlClient(Prompt, url, key, model='glm-4-flash', max_tokens=8192,max_output_tokens=8192):
     client = openai.OpenAI(api_key=key, base_url=url)
     completion = client.chat.completions.create(
         model=model,
         messages=[{"role": "system", "content": ''}, {"role": "user", "content": Prompt}],
         top_p=0.7,
         temperature=0.5,
-        max_tokens=max_tokens,
+        max_tokens=max_output_tokens,
     )
     return completion.choices[0].message.content
 def GetResponseFromClaudeExample(prompt,api_key):
